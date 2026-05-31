@@ -100,15 +100,12 @@
         .report-table-wrapper {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            margin: 0 -4px;
-            padding: 0 4px;
         }
 
         .report-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.8rem;
-            min-width: 560px;
         }
 
         .report-table th,
@@ -120,10 +117,15 @@
             word-break: break-word;
         }
 
-        /* Запрещаем перенос слов во всех столбцах, кроме последнего (Комментарий) */
-        .report-table td:not(:last-child),
-        .report-table th:not(:last-child) {
-            white-space: nowrap;
+        /* Для широких экранов — запрещаем перенос во всех столбцах, кроме комментария */
+        @media (min-width: 641px) {
+            .report-table td:not(:last-child),
+            .report-table th:not(:last-child) {
+                white-space: nowrap;
+            }
+            .report-table {
+                min-width: 560px;
+            }
         }
 
         .report-table th:first-child,
@@ -158,12 +160,12 @@
             text-decoration: underline;
         }
 
-        /* Скрываем всё лишнее для экспорта */
+        /* Скрываем всё лишнее */
         button, .icon-button, .collapsible, .flex-buttons, footer, #exportReportBtn, .no-export {
             display: none;
         }
 
-        /* Ландшафтная ориентация — делаем более комфортную таблицу */
+        /* Ландшафтная ориентация на планшетах и выше */
         @media (min-width: 768px) and (orientation: landscape) {
             .report-table {
                 font-size: 0.9rem;
@@ -176,7 +178,7 @@
             }
         }
 
-        /* Адаптив для телефонов в портрете — оставляем прокрутку, но не мешаем */
+        /* ===== МОБИЛЬНЫЙ ВАРИАНТ (КАРТОЧКИ) ===== */
         @media (max-width: 640px) {
             body {
                 padding: 12px 8px;
@@ -187,11 +189,85 @@
             .report-header h3 {
                 font-size: 1.2rem;
             }
-            .report-table {
-                font-size: 0.75rem;
+
+            /* Превращаем таблицу в блоки */
+            .report-table,
+            .report-table thead,
+            .report-table tbody,
+            .report-table tr,
+            .report-table th,
+            .report-table td {
+                display: block;
             }
-            .report-table th, .report-table td {
-                padding: 6px 4px;
+
+            .report-table thead {
+                display: none; /* скрываем шапку, подписи будут из data-label */
+            }
+
+            .report-table tr {
+                margin-bottom: 1rem;
+                border: 1px solid #e2e8f0;
+                border-radius: 20px;
+                background: white;
+                padding: 0.75rem;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            }
+
+            .report-table td {
+                border: none;
+                padding: 0.5rem 0;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 0.75rem;
+                font-size: 0.8rem;
+            }
+
+            /* Добавляем подпись через data-label */
+            .report-table td::before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: #1e293b;
+                width: 35%;
+                flex-shrink: 0;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+                background: #f8fafc;
+                padding: 4px 8px;
+                border-radius: 20px;
+                display: inline-block;
+                text-align: center;
+            }
+
+            /* Для комментария делаем подпись сверху на всю ширину */
+            .report-table td:last-child {
+                flex-direction: column;
+            }
+            .report-table td:last-child::before {
+                width: 100%;
+                margin-bottom: 6px;
+            }
+
+            /* Цветные временные слоты сохраняем фоном для всей строки времени */
+            .time-slot-1, .time-slot-2, .time-slot-3 {
+                background-color: inherit !important;
+            }
+            /* Но для ячейки времени добавим цветной фон через класс */
+            .report-table td[data-label="Время"] {
+                background-color: #e0f2fe;
+                border-radius: 16px;
+                padding: 0.5rem 0.75rem;
+            }
+            /* конкретно для каждого слота, если нужно, можно задать, но проще оставить единообразно */
+            .report-table tr:first-child td[data-label="Время"] { background-color: #e0f2fe; }
+            .report-table tr:nth-child(2) td[data-label="Время"] { background-color: #dcfce7; }
+            .report-table tr:nth-child(3) td[data-label="Время"] { background-color: #ffedd5; }
+
+            /* Отключаем nowrap на мобильных */
+            .report-table td {
+                white-space: normal;
             }
         }
     </style>
@@ -217,49 +293,50 @@
             <table class="report-table">
                 <thead>
                     <tr>
-                        <th><i class="fas fa-chalkboard"></i> Урок(и)</th>
-                        <th><i class="far fa-clock"></i> Время</th>
-                        <th><i class="fas fa-users"></i> Класс(ы)</th>
-                        <th><i class="fas fa-book"></i> Предмет</th>
-                        <th><i class="fas fa-door-open"></i> Кабинет</th>
-                        <th><i class="fas fa-user-slash"></i> Кого заменяем</th>
-                        <th><i class="fas fa-user-check"></i> Кто заменяет</th>
-                        <th><i class="fas fa-comment"></i> Комментарий</th>
+                        <th>Урок(и)</th>
+                        <th>Время</th>
+                        <th>Класс(ы)</th>
+                        <th>Предмет</th>
+                        <th>Кабинет</th>
+                        <th>Кого заменяем</th>
+                        <th>Кто заменяет</th>
+                        <th>Комментарий</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Строка 1 -->
                     <tr>
-                        <td><strong>1–2</strong></td>
-                        <td class="time-slot-1">8:40–10:00</td>
-                        <td>10Y12</td>
-                        <td>Computer Science</td>
-                        <td>Vienna</td>
-                        <td>Mr Smith</td>
-                        <td class="replacement-teacher">Ustimenkova R.S.</td>
-                        <td>—</td>
+                        <td data-label="Урок(и)"><strong>1–2</strong></td>
+                        <td data-label="Время" class="time-slot-1">8:40–10:00</td>
+                        <td data-label="Класс(ы)">10Y12</td>
+                        <td data-label="Предмет">Computer Science</td>
+                        <td data-label="Кабинет">Vienna</td>
+                        <td data-label="Кого заменяем">Mr Smith</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Ustimenkova R.S.</td>
+                        <td data-label="Комментарий">—</td>
                     </tr>
+                    <!-- Строка 2 -->
                     <tr>
-                        <td><strong>5</strong></td>
-                        <td class="time-slot-2">11:50–12:30</td>
-                        <td>7Y9D, 7Y9M</td>
-                        <td>Digital Lit</td>
-                        <td>Shanghai</td>
-                        <td>Mr Smith</td>
-                        <td class="replacement-teacher">Ms Alieva</td>
-                        <td>Алексей Олегович поможет с заданием, обратитесь к нему</td>
+                        <td data-label="Урок(и)"><strong>5</strong></td>
+                        <td data-label="Время" class="time-slot-2">11:50–12:30</td>
+                        <td data-label="Класс(ы)">7Y9D, 7Y9M</td>
+                        <td data-label="Предмет">Digital Lit</td>
+                        <td data-label="Кабинет">Shanghai</td>
+                        <td data-label="Кого заменяем">Mr Smith</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Ms Alieva</td>
+                        <td data-label="Комментарий">Алексей Олегович поможет с заданием, обратитесь к нему</td>
                     </tr>
+                    <!-- Строка 3 -->
                     <tr>
-                        <td><strong>8–9</strong></td>
-                        <td class="time-slot-3">15:00–16:20</td>
-                        <td>5Y7M</td>
-                        <td>Digital Lit</td>
-                        <td>Shanghai</td>
-                        <td>Mr Smith</td>
-                        <td class="replacement-teacher">Ryazankina E.V.</td>
-                        <td>
-                            <a href="https://xn--h1adlhdnlo2c.xn--p1ai/lessons/ai-evolution/" target="_blank" rel="noopener noreferrer">
-                                📘 Ссылка на урок
-                            </a>. Ребята могут пройти несколько тренажеров по цифровой безопасности.<br> Убедитесь, пожалуйста, перед уроком, что планшеты заряжены
+                        <td data-label="Урок(и)"><strong>8–9</strong></td>
+                        <td data-label="Время" class="time-slot-3">15:00–16:20</td>
+                        <td data-label="Класс(ы)">5Y7M</td>
+                        <td data-label="Предмет">Digital Lit</td>
+                        <td data-label="Кабинет">Shanghai</td>
+                        <td data-label="Кого заменяем">Mr Smith</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Ryazankina E.V.</td>
+                        <td data-label="Комментарий">
+                            <a href="https://xn--h1adlhdnlo2c.xn--p1ai/lessons/ai-evolution/" target="_blank" rel="noopener noreferrer">📘 Ссылка на урок</a>. Ребята могут пройти несколько тренажеров по цифровой безопасности.<br> Убедитесь, пожалуйста, перед уроком, что планшеты заряжены
                         </td>
                     </tr>
                 </tbody>
