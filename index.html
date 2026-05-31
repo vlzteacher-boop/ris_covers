@@ -120,6 +120,12 @@
             word-break: break-word;
         }
 
+        /* Запрещаем перенос слов во всех столбцах, кроме последнего (Комментарий) */
+        .report-table td:not(:last-child),
+        .report-table th:not(:last-child) {
+            white-space: nowrap;
+        }
+
         .report-table th:first-child,
         .report-table td:first-child {
             white-space: nowrap;
