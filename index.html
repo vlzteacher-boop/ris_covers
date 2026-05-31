@@ -7,11 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background: #f1f5f9;
@@ -21,41 +17,36 @@
             min-height: 100vh;
         }
 
-        .container-export {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+        .container-export { max-width: 1400px; margin: 0 auto; }
 
-        /* Подсказка о повороте экрана */
-        .rotate-hint {
-            display: none;
-            background: #3b82f6;
-            color: white;
-            text-align: center;
-            padding: 10px 16px;
+        /* Выбор учителя */
+        .teacher-selector {
+            background: white;
             border-radius: 60px;
+            padding: 8px 20px;
             margin-bottom: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .teacher-selector label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .teacher-selector select {
+            padding: 8px 16px;
+            border-radius: 40px;
+            border: 1px solid #cbd5e1;
+            background: white;
+            font-family: inherit;
             font-size: 0.85rem;
             font-weight: 500;
-            gap: 10px;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeIn 0.3s ease;
-        }
-        .rotate-hint i {
-            font-size: 1.2rem;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Показываем подсказку только на телефонах в портретной ориентации */
-        @media (max-width: 768px) and (orientation: portrait) {
-            .rotate-hint {
-                display: flex;
-            }
         }
 
         .report-container {
@@ -102,108 +93,48 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        .report-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.8rem;
-        }
-
-        .report-table th,
-        .report-table td {
-            border: 1px solid #e2e8f0;
-            padding: 8px 6px;
-            vertical-align: top;
-            text-align: left;
-            word-break: break-word;
-        }
-
-        /* Для широких экранов — запрещаем перенос во всех столбцах, кроме комментария */
+        /* Широкая версия (таблица) */
         @media (min-width: 641px) {
+            .report-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 0.8rem;
+                min-width: 560px;
+            }
+            .report-table th, .report-table td {
+                border: 1px solid #e2e8f0;
+                padding: 8px 6px;
+                vertical-align: top;
+                text-align: left;
+                word-break: break-word;
+            }
             .report-table td:not(:last-child),
             .report-table th:not(:last-child) {
                 white-space: nowrap;
             }
-            .report-table {
-                min-width: 560px;
+            .report-table th:first-child, .report-table td:first-child {
+                white-space: nowrap;
+                width: 1%;
+            }
+            .report-table th {
+                background: #f8fafc;
+                font-weight: 600;
+                font-size: 0.75rem;
+            }
+            /* Подсветка строки в таблице */
+            .report-table tr.my-replacement {
+                background-color: #fef9c3;
+                border-left: 5px solid #eab308;
             }
         }
 
-        .report-table th:first-child,
-        .report-table td:first-child {
-            white-space: nowrap;
-            width: 1%;
-        }
-
-        .report-table th {
-            background: #f8fafc;
-            font-weight: 600;
-            font-size: 0.75rem;
-        }
-
-        /* Цвета для временных интервалов */
-        .time-slot-1 { background-color: #e0f2fe !important; font-weight: 600; }
-        .time-slot-2 { background-color: #dcfce7 !important; font-weight: 600; }
-        .time-slot-3 { background-color: #ffedd5 !important; font-weight: 600; }
-
-        /* Жирный заменяющий учитель */
-        .replacement-teacher {
-            font-weight: 700;
-            color: #0f172a;
-        }
-
-        .report-table td a {
-            word-break: break-all;
-            color: #3b82f6;
-            text-decoration: none;
-        }
-        .report-table td a:hover {
-            text-decoration: underline;
-        }
-
-        /* Скрываем всё лишнее */
-        button, .icon-button, .collapsible, .flex-buttons, footer, #exportReportBtn, .no-export {
-            display: none;
-        }
-
-        /* Ландшафтная ориентация на планшетах и выше */
-        @media (min-width: 768px) and (orientation: landscape) {
-            .report-table {
-                font-size: 0.9rem;
-            }
-            .report-table th, .report-table td {
-                padding: 10px 8px;
-            }
-            .report-header h3 {
-                font-size: 1.6rem;
-            }
-        }
-
-        /* ===== МОБИЛЬНЫЙ ВАРИАНТ (КАРТОЧКИ) ===== */
+        /* Мобильные карточки */
         @media (max-width: 640px) {
-            body {
-                padding: 12px 8px;
-            }
-            .report-container {
-                padding: 0.9rem;
-            }
-            .report-header h3 {
-                font-size: 1.2rem;
-            }
-
-            /* Превращаем таблицу в блоки */
-            .report-table,
-            .report-table thead,
-            .report-table tbody,
-            .report-table tr,
-            .report-table th,
-            .report-table td {
+            .report-table, .report-table thead, .report-table tbody, 
+            .report-table tr, .report-table th, .report-table td {
                 display: block;
             }
-
-            .report-table thead {
-                display: none; /* скрываем шапку, подписи будут из data-label */
-            }
-
+            .report-table thead { display: none; }
             .report-table tr {
                 margin-bottom: 1rem;
                 border: 1px solid #e2e8f0;
@@ -211,8 +142,14 @@
                 background: white;
                 padding: 0.75rem;
                 box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                transition: all 0.2s;
             }
-
+            /* Подсветка карточки для своих замен */
+            .report-table tr.my-replacement {
+                background: #fef9c3 !important;
+                border-left: 5px solid #eab308;
+                box-shadow: 0 4px 12px rgba(234,179,8,0.2);
+            }
             .report-table td {
                 border: none;
                 padding: 0.5rem 0;
@@ -223,8 +160,6 @@
                 gap: 0.75rem;
                 font-size: 0.8rem;
             }
-
-            /* Добавляем подпись через data-label */
             .report-table td::before {
                 content: attr(data-label);
                 font-weight: 700;
@@ -240,45 +175,38 @@
                 display: inline-block;
                 text-align: center;
             }
+            .report-table td:last-child { flex-direction: column; }
+            .report-table td:last-child::before { width: 100%; margin-bottom: 6px; }
+            /* Цветные временные интервалы */
+            .report-table tr:first-child td[data-label="Время"] { background-color: #e0f2fe; border-radius: 16px; padding: 0.5rem 0.75rem; }
+            .report-table tr:nth-child(2) td[data-label="Время"] { background-color: #dcfce7; border-radius: 16px; padding: 0.5rem 0.75rem; }
+            .report-table tr:nth-child(3) td[data-label="Время"] { background-color: #ffedd5; border-radius: 16px; padding: 0.5rem 0.75rem; }
+        }
 
-            /* Для комментария делаем подпись сверху на всю ширину */
-            .report-table td:last-child {
-                flex-direction: column;
-            }
-            .report-table td:last-child::before {
-                width: 100%;
-                margin-bottom: 6px;
-            }
+        .replacement-teacher { font-weight: 700; color: #0f172a; }
+        .report-table td a {
+            word-break: break-all;
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        .report-table td a:hover { text-decoration: underline; }
 
-            /* Цветные временные слоты сохраняем фоном для всей строки времени */
-            .time-slot-1, .time-slot-2, .time-slot-3 {
-                background-color: inherit !important;
-            }
-            /* Но для ячейки времени добавим цветной фон через класс */
-            .report-table td[data-label="Время"] {
-                background-color: #e0f2fe;
-                border-radius: 16px;
-                padding: 0.5rem 0.75rem;
-            }
-            /* конкретно для каждого слота, если нужно, можно задать, но проще оставить единообразно */
-            .report-table tr:first-child td[data-label="Время"] { background-color: #e0f2fe; }
-            .report-table tr:nth-child(2) td[data-label="Время"] { background-color: #dcfce7; }
-            .report-table tr:nth-child(3) td[data-label="Время"] { background-color: #ffedd5; }
-
-            /* Отключаем nowrap на мобильных */
-            .report-table td {
-                white-space: normal;
-            }
+        /* Скрываем лишние элементы */
+        button, .icon-button, .collapsible, .flex-buttons, footer, #exportReportBtn, .no-export {
+            display: none;
         }
     </style>
 </head>
 <body>
 <div class="container-export">
-    <!-- Подсказка повернуть телефон -->
-    <div class="rotate-hint">
-        <i class="fas fa-phone-alt"></i>
-        <span>📱 Для лучшего просмотра поверните телефон горизонтально</span>
-        <i class="fas fa-undo-alt"></i>
+    <div class="teacher-selector">
+        <label><i class="fas fa-chalkboard-user"></i> Мои замены:</label>
+        <select id="teacherSelect">
+            <option value="">-- Выберите учителя --</option>
+            <option value="Ustimenkova R.S.">Ustimenkova R.S.</option>
+            <option value="Ms Alieva">Ms Alieva</option>
+            <option value="Ryazankina E.V.">Ryazankina E.V.</option>
+        </select>
     </div>
 
     <div class="report-container">
@@ -290,24 +218,14 @@
             </div>
         </div>
         <div class="report-table-wrapper">
-            <table class="report-table">
+            <table class="report-table" id="replacementsTable">
                 <thead>
-                    <tr>
-                        <th>Урок(и)</th>
-                        <th>Время</th>
-                        <th>Класс(ы)</th>
-                        <th>Предмет</th>
-                        <th>Кабинет</th>
-                        <th>Кого заменяем</th>
-                        <th>Кто заменяет</th>
-                        <th>Комментарий</th>
-                    </tr>
+                    <tr><th>Урок(и)</th><th>Время</th><th>Класс(ы)</th><th>Предмет</th><th>Кабинет</th><th>Кого заменяем</th><th>Кто заменяет</th><th>Комментарий</th></tr>
                 </thead>
                 <tbody>
-                    <!-- Строка 1 -->
-                    <tr>
+                    <tr data-teacher="Ustimenkova R.S.">
                         <td data-label="Урок(и)"><strong>1–2</strong></td>
-                        <td data-label="Время" class="time-slot-1">8:40–10:00</td>
+                        <td data-label="Время">8:40–10:00</td>
                         <td data-label="Класс(ы)">10Y12</td>
                         <td data-label="Предмет">Computer Science</td>
                         <td data-label="Кабинет">Vienna</td>
@@ -315,10 +233,9 @@
                         <td data-label="Кто заменяет" class="replacement-teacher">Ustimenkova R.S.</td>
                         <td data-label="Комментарий">—</td>
                     </tr>
-                    <!-- Строка 2 -->
-                    <tr>
+                    <tr data-teacher="Ms Alieva">
                         <td data-label="Урок(и)"><strong>5</strong></td>
-                        <td data-label="Время" class="time-slot-2">11:50–12:30</td>
+                        <td data-label="Время">11:50–12:30</td>
                         <td data-label="Класс(ы)">7Y9D, 7Y9M</td>
                         <td data-label="Предмет">Digital Lit</td>
                         <td data-label="Кабинет">Shanghai</td>
@@ -326,17 +243,16 @@
                         <td data-label="Кто заменяет" class="replacement-teacher">Ms Alieva</td>
                         <td data-label="Комментарий">Алексей Олегович поможет с заданием, обратитесь к нему</td>
                     </tr>
-                    <!-- Строка 3 -->
-                    <tr>
+                    <tr data-teacher="Ryazankina E.V.">
                         <td data-label="Урок(и)"><strong>8–9</strong></td>
-                        <td data-label="Время" class="time-slot-3">15:00–16:20</td>
+                        <td data-label="Время">15:00–16:20</td>
                         <td data-label="Класс(ы)">5Y7M</td>
                         <td data-label="Предмет">Digital Lit</td>
                         <td data-label="Кабинет">Shanghai</td>
                         <td data-label="Кого заменяем">Mr Smith</td>
                         <td data-label="Кто заменяет" class="replacement-teacher">Ryazankina E.V.</td>
                         <td data-label="Комментарий">
-                            <a href="https://xn--h1adlhdnlo2c.xn--p1ai/lessons/ai-evolution/" target="_blank" rel="noopener noreferrer">📘 Ссылка на урок</a>. Ребята могут пройти несколько тренажеров по цифровой безопасности.<br> Убедитесь, пожалуйста, перед уроком, что планшеты заряжены
+                            <a href="https://xn--h1adlhdnlo2c.xn--p1ai/lessons/ai-evolution/" target="_blank">📘 Ссылка на урок</a>. Ребята могут пройти несколько тренажеров по цифровой безопасности.<br> Убедитесь, пожалуйста, перед уроком, что планшеты заряжены
                         </td>
                     </tr>
                 </tbody>
@@ -345,5 +261,24 @@
     </div>
     <div style="margin-top: 24px; text-align: center; font-size: 0.7rem; color: #64748b;">Сформировано в системе «Covers»</div>
 </div>
+
+<script>
+    const select = document.getElementById('teacherSelect');
+    const rows = document.querySelectorAll('#replacementsTable tbody tr');
+
+    function highlightMyReplacements() {
+        const selected = select.value;
+        rows.forEach(row => {
+            if (selected && row.getAttribute('data-teacher') === selected) {
+                row.classList.add('my-replacement');
+            } else {
+                row.classList.remove('my-replacement');
+            }
+        });
+    }
+
+    select.addEventListener('change', highlightMyReplacements);
+    highlightMyReplacements(); // на случай, если выбрано по умолчанию
+</script>
 </body>
 </html>
