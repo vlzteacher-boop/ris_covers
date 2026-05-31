@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>Отчёт о заменах — Monday</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f1f5f9;
+            font-family: 'Inter', system-ui, 'Segoe UI', sans-serif;
+            padding: 20px 12px;
+            color: #0f172a;
+            min-height: 100vh;
+        }
+
+        .container-export {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Подсказка о повороте экрана */
+        .rotate-hint {
+            display: none;
+            background: #3b82f6;
+            color: white;
+            text-align: center;
+            padding: 10px 16px;
+            border-radius: 60px;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeIn 0.3s ease;
+        }
+        .rotate-hint i {
+            font-size: 1.2rem;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Показываем подсказку только на телефонах в портретной ориентации */
+        @media (max-width: 768px) and (orientation: portrait) {
+            .rotate-hint {
+                display: flex;
+            }
+        }
+
+        .report-container {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 1.2rem;
+            margin-top: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .report-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e293b, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .report-meta {
+            font-size: 0.75rem;
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 40px;
+            color: #1e293b;
+            text-align: right;
+        }
+
+        .report-table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -4px;
+            padding: 0 4px;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            min-width: 560px;
+        }
+
+        .report-table th,
+        .report-table td {
+            border: 1px solid #e2e8f0;
+            padding: 8px 6px;
+            vertical-align: top;
+            text-align: left;
+            word-break: break-word;
+        }
+
+        .report-table th:first-child,
+        .report-table td:first-child {
+            white-space: nowrap;
+            width: 1%;
+        }
+
+        .report-table th {
+            background: #f8fafc;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        /* Цвета для временных интервалов */
+        .time-slot-1 { background-color: #e0f2fe !important; font-weight: 600; }
+        .time-slot-2 { background-color: #dcfce7 !important; font-weight: 600; }
+        .time-slot-3 { background-color: #ffedd5 !important; font-weight: 600; }
+
+        /* Жирный заменяющий учитель */
+        .replacement-teacher {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .report-table td a {
+            word-break: break-all;
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        .report-table td a:hover {
+            text-decoration: underline;
+        }
+
+        /* Скрываем всё лишнее для экспорта */
+        button, .icon-button, .collapsible, .flex-buttons, footer, #exportReportBtn, .no-export {
+            display: none;
+        }
+
+        /* Ландшафтная ориентация — делаем более комфортную таблицу */
+        @media (min-width: 768px) and (orientation: landscape) {
+            .report-table {
+                font-size: 0.9rem;
+            }
+            .report-table th, .report-table td {
+                padding: 10px 8px;
+            }
+            .report-header h3 {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Адаптив для телефонов в портрете — оставляем прокрутку, но не мешаем */
+        @media (max-width: 640px) {
+            body {
+                padding: 12px 8px;
+            }
+            .report-container {
+                padding: 0.9rem;
+            }
+            .report-header h3 {
+                font-size: 1.2rem;
+            }
+            .report-table {
+                font-size: 0.75rem;
+            }
+            .report-table th, .report-table td {
+                padding: 6px 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container-export">
+    <!-- Подсказка повернуть телефон -->
+    <div class="rotate-hint">
+        <i class="fas fa-phone-alt"></i>
+        <span>📱 Для лучшего просмотра поверните телефон горизонтально</span>
+        <i class="fas fa-undo-alt"></i>
+    </div>
+
+    <div class="report-container">
+        <div class="report-header">
+            <h3><i class="fas fa-clipboard-list"></i> Замены 1 июня</h3>
+            <div class="report-meta">
+                <i class="fas fa-calendar-alt"></i> Понедельник, 2026-06-01<br>
+                <i class="fas fa-user-slash"></i> Отсутствуют: Mr Smith
+            </div>
+        </div>
+        <div class="report-table-wrapper">
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-chalkboard"></i> Урок(и)</th>
+                        <th><i class="far fa-clock"></i> Время</th>
+                        <th><i class="fas fa-users"></i> Класс(ы)</th>
+                        <th><i class="fas fa-book"></i> Предмет</th>
+                        <th><i class="fas fa-door-open"></i> Кабинет</th>
+                        <th><i class="fas fa-user-slash"></i> Кого заменяем</th>
+                        <th><i class="fas fa-user-check"></i> Кто заменяет</th>
+                        <th><i class="fas fa-comment"></i> Комментарий</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1–2</strong></td>
+                        <td class="time-slot-1">8:40–10:00</td>
+                        <td>10Y12</td>
+                        <td>Computer Science</td>
+                        <td>Vienna</td>
+                        <td>Mr Smith</td>
+                        <td class="replacement-teacher">Ustimenkova R.S.</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td><strong>5</strong></td>
+                        <td class="time-slot-2">11:50–12:30</td>
+                        <td>7Y9D, 7Y9M</td>
+                        <td>Digital Lit</td>
+                        <td>Shanghai</td>
+                        <td>Mr Smith</td>
+                        <td class="replacement-teacher">Ms Alieva</td>
+                        <td>Алексей Олегович поможет с заданием, обратитесь к нему</td>
+                    </tr>
+                    <tr>
+                        <td><strong>8–9</strong></td>
+                        <td class="time-slot-3">15:00–16:20</td>
+                        <td>5Y7M</td>
+                        <td>Digital Lit</td>
+                        <td>Shanghai</td>
+                        <td>Mr Smith</td>
+                        <td class="replacement-teacher">Ryazankina E.V.</td>
+                        <td>
+                            <a href="https://xn--h1adlhdnlo2c.xn--p1ai/lessons/ai-evolution/" target="_blank" rel="noopener noreferrer">
+                                📘 Ссылка на урок
+                            </a>. Ребята могут пройти несколько тренажеров по цифровой безопасности.<br> Убедитесь, пожалуйста, перед уроком, что планшеты заряжены
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div style="margin-top: 24px; text-align: center; font-size: 0.7rem; color: #64748b;">Сформировано в системе «Covers»</div>
+</div>
+</body>
+</html>
