@@ -47,6 +47,7 @@
             font-family: inherit;
             font-size: 0.85rem;
             font-weight: 500;
+            min-width: 180px;
         }
 
         .report-container {
@@ -175,10 +176,10 @@
             }
             .report-table td:last-child { flex-direction: column; }
             .report-table td:last-child::before { width: 100%; margin-bottom: 6px; }
-            /* Цветные временные интервалы */
-            .report-table tr:first-child td[data-label="Время"] { background-color: #e0f2fe; border-radius: 16px; padding: 0.5rem 0.75rem; }
-            .report-table tr:nth-child(2) td[data-label="Время"] { background-color: #dcfce7; border-radius: 16px; padding: 0.5rem 0.75rem; }
-            .report-table tr:nth-child(3) td[data-label="Время"] { background-color: #ffedd5; border-radius: 16px; padding: 0.5rem 0.75rem; }
+            .report-table tr td[data-label="Время"] { 
+                border-radius: 16px; 
+                padding: 0.5rem 0.75rem;
+            }
         }
 
         .replacement-teacher { font-weight: 700; color: #0f172a; }
@@ -201,9 +202,7 @@
         <label><i class="fas fa-chalkboard-user"></i> Мои замены:</label>
         <select id="teacherSelect">
             <option value="">-- Выберите учителя --</option>
-            <option value="Ustimenkova R.S.">Ustimenkova R.S.</option>
-            <option value="Ms Alieva">Ms Alieva</option>
-            <option value="Ryazankina E.V.">Ryazankina E.V.</option>
+            <!-- опции будут заполнены динамически из таблицы -->
         </select>
     </div>
 
@@ -212,7 +211,7 @@
             <h3><i class="fas fa-clipboard-list"></i> Замены 1 июня</h3>
             <div class="report-meta">
                 <i class="fas fa-calendar-alt"></i> Понедельник, 2026-06-01<br>
-                <i class="fas fa-user-slash"></i> Отсутствуют: Mr Smith
+                <i class="fas fa-user-slash"></i> Отсутствуют: Mr Smith, Dr Lyanchuk
             </div>
         </div>
         <div class="report-table-wrapper">
@@ -220,8 +219,9 @@
                 <thead>
                     <tr><th>Урок(и)</th><th>Время</th><th>Класс(ы)</th><th>Предмет</th><th>Кабинет</th><th>Кого заменяем</th><th>Кто заменяет</th><th>Комментарий</th></tr>
                 </thead>
-                <tbody>
-                    <tr data-teacher="Ustimenkova R.S.">
+                <tbody id="replacementsBody">
+                    <!-- строка 1–2 (Ustimenkova) -->
+                    <tr>
                         <td data-label="Урок(и)"><strong>1–2</strong></td>
                         <td data-label="Время">8:40–10:00</td>
                         <td data-label="Класс(ы)">10Y12</td>
@@ -231,7 +231,19 @@
                         <td data-label="Кто заменяет" class="replacement-teacher">Ustimenkova R.S.</td>
                         <td data-label="Комментарий">—</td>
                     </tr>
-                    <tr data-teacher="Ms Alieva">
+                    <!-- строка 3–4 (Ms Krasilnikova, Mr Parker) -->
+                    <tr>
+                        <td data-label="Урок(и)"><strong>3–4</strong></td>
+                        <td data-label="Время">10:20–11:40</td>
+                        <td data-label="Класс(ы)">6Y8D, 6Y8M</td>
+                        <td data-label="Предмет">Science</td>
+                        <td data-label="Кабинет">Japan</td>
+                        <td data-label="Кого заменяем">Dr Lyanchuk</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Ms Krasilnikova, Mr Parker</td>
+                        <td data-label="Комментарий">Additional preparation for the final English test.<br> Come to an agreement between yourselves; you can each run a 40‑minute lesson</td>
+                    </tr>
+                    <!-- строка 5 (Ms Alieva) -->
+                    <tr>
                         <td data-label="Урок(и)"><strong>5</strong></td>
                         <td data-label="Время">11:50–12:30</td>
                         <td data-label="Класс(ы)">7Y9D, 7Y9M</td>
@@ -241,7 +253,8 @@
                         <td data-label="Кто заменяет" class="replacement-teacher">Ms Alieva</td>
                         <td data-label="Комментарий">Алексей Олегович поможет с заданием, обратитесь к нему</td>
                     </tr>
-                    <tr data-teacher="Ryazankina E.V.">
+                    <!-- строка 8–9 (Ryazankina E.V., Digital Lit) -->
+                    <tr>
                         <td data-label="Урок(и)"><strong>8–9</strong></td>
                         <td data-label="Время">15:00–16:20</td>
                         <td data-label="Класс(ы)">5Y7M</td>
@@ -253,6 +266,17 @@
                             <a href="https://xn--h1adlhdnlo2c.xn--p1ai/lessons/ai-evolution/" target="_blank">📘 Ссылка на урок</a>. Ребята могут пройти несколько тренажеров по цифровой безопасности.<br> Убедитесь, пожалуйста, перед уроком, что планшеты заряжены
                         </td>
                     </tr>
+                    <!-- строка 8–9 (Science, Ryzhova A.E.) -->
+                    <tr>
+                        <td data-label="Урок(и)"><strong>8–9</strong></td>
+                        <td data-label="Время">15:00–16:20</td>
+                        <td data-label="Класс(ы)">7Y9M</td>
+                        <td data-label="Предмет">Science</td>
+                        <td data-label="Кабинет">Japan</td>
+                        <td data-label="Кого заменяем">Dr Lyanchuk</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Ryzhova A.E.</td>
+                        <td data-label="Комментарий">—</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -261,27 +285,127 @@
 </div>
 
 <script>
-    const select = document.getElementById('teacherSelect');
-    const rows = document.querySelectorAll('#replacementsTable tbody tr');
-
-    function highlightMyReplacements() {
-        const selected = select.value;
-        let firstMatch = null;
-        rows.forEach(row => {
-            if (selected && row.getAttribute('data-teacher') === selected) {
-                row.classList.add('my-replacement');
-                if (!firstMatch) firstMatch = row;
-            } else {
-                row.classList.remove('my-replacement');
+    (function() {
+        // Функция для извлечения номера начала урока из строки (например "1–2" → 1, "3–4" → 3, "5" → 5)
+        function getLessonStart(lessonStr) {
+            if (!lessonStr) return Infinity;
+            const text = lessonStr.replace(/<[^>]*>/g, '').trim();
+            const match = text.match(/(\d+)/);
+            if (match) {
+                return parseInt(match[1], 10);
             }
-        });
-        if (firstMatch) {
-            firstMatch.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return Infinity;
         }
-    }
 
-    select.addEventListener('change', highlightMyReplacements);
-    highlightMyReplacements(); // инициализация (если по умолчанию пусто, ничего не случится)
+        // Сортировка строк tbody по возрастанию начала урока
+        function sortRowsByLesson() {
+            const tbody = document.getElementById('replacementsBody');
+            if (!tbody) return;
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            rows.forEach(row => {
+                const firstCell = row.querySelector('td:first-child');
+                if (firstCell) {
+                    const lessonText = firstCell.innerText || firstCell.textContent;
+                    row._lessonStart = getLessonStart(lessonText);
+                } else {
+                    row._lessonStart = Infinity;
+                }
+            });
+            
+            rows.sort((a, b) => a._lessonStart - b._lessonStart);
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        // Собрать уникальных учителей из колонки "Кто заменяет" (седьмой столбец, класс .replacement-teacher)
+        // Возвращает массив имён (с учётом разделения по запятым)
+        function extractAllTeachersFromReplacements() {
+            const teacherSet = new Set();
+            const rows = document.querySelectorAll('#replacementsBody tr');
+            rows.forEach(row => {
+                const replacementCell = row.querySelector('td.replacement-teacher');
+                if (!replacementCell) return;
+                let cellText = replacementCell.innerText || replacementCell.textContent;
+                if (!cellText || cellText.trim() === '—') return;
+                // Разделяем по запятым, убираем лишние пробелы
+                const parts = cellText.split(',').map(p => p.trim()).filter(p => p && p !== '—');
+                parts.forEach(teacher => teacherSet.add(teacher));
+            });
+            // Преобразуем Set в массив и сортируем для удобства (по алфавиту)
+            return Array.from(teacherSet).sort((a, b) => a.localeCompare(b));
+        }
+
+        // Заполнить выпадающий список учителями из таблицы
+        function populateTeacherSelect() {
+            const select = document.getElementById('teacherSelect');
+            if (!select) return;
+            const teachers = extractAllTeachersFromReplacements();
+            // Сохраняем текущее выбранное значение (если есть)
+            const currentValue = select.value;
+            // Очищаем select, кроме первой пустой опции
+            select.innerHTML = '<option value="">-- Выберите учителя --</option>';
+            teachers.forEach(teacher => {
+                const option = document.createElement('option');
+                option.value = teacher;
+                option.textContent = teacher;
+                select.appendChild(option);
+            });
+            // Восстанавливаем выбранное значение, если оно ещё существует в новом списке
+            if (currentValue && teachers.includes(currentValue)) {
+                select.value = currentValue;
+            } else {
+                select.value = "";
+            }
+        }
+
+        // Подсветка строк, где в колонке "Кто заменяет" указан выбранный учитель
+        function highlightMyReplacements() {
+            const select = document.getElementById('teacherSelect');
+            if (!select) return;
+            const selectedTeacher = select.value;
+            const rows = document.querySelectorAll('#replacementsBody tr');
+            let firstMatch = null;
+            
+            rows.forEach(row => {
+                const replacementCell = row.querySelector('td.replacement-teacher');
+                if (!replacementCell) return;
+                let cellText = replacementCell.innerText || replacementCell.textContent;
+                const isMatch = (selectedTeacher && cellText && cellText !== '—') && 
+                                 (cellText === selectedTeacher || 
+                                  // Проверяем, содержится ли выбранный учитель в списке через запятую
+                                  cellText.split(',').map(p => p.trim()).includes(selectedTeacher));
+                
+                if (isMatch) {
+                    row.classList.add('my-replacement');
+                    if (!firstMatch) firstMatch = row;
+                } else {
+                    row.classList.remove('my-replacement');
+                }
+            });
+            
+            if (firstMatch) {
+                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Инициализация: сортировка, заполнение списка учителей, навешивание событий
+        function init() {
+            sortRowsByLesson();               // сортируем по урокам
+            populateTeacherSelect();          // собираем учителей из таблицы и заполняем select
+            highlightMyReplacements();        // подсвечиваем, если что-то выбрано (по умолчанию пусто)
+            
+            const select = document.getElementById('teacherSelect');
+            if (select) {
+                select.addEventListener('change', highlightMyReplacements);
+            }
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    })();
 </script>
 </body>
 </html>
