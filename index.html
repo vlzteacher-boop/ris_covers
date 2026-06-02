@@ -1,55 +1,205 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>Отчёт о заменах / Covers — Monday</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet">
-    <style>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Отчёт о заменах</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"><link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet"><style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             background: #f1f5f9;
             font-family: 'Inter', system-ui, 'Segoe UI', sans-serif;
-            padding: 20px 12px;
+            padding: 28px 20px;
             color: #0f172a;
-            min-height: 100vh;
         }
-
-        .container-export { max-width: 1400px; margin: 0 auto; }
-
-        /* Выбор учителя / Teacher selector */
-        .teacher-selector {
-            background: white;
-            border-radius: 60px;
-            padding: 8px 20px;
-            margin-bottom: 16px;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 12px; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 12px; }
+        .container { max-width: 1600px; margin: 0 auto; }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e293b, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
             border: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
         }
-        .teacher-selector label {
+        label {
             font-weight: 600;
-            font-size: 0.85rem;
             display: flex;
             align-items: center;
-            gap: 6px;
-        }
-        .teacher-selector select {
-            padding: 8px 16px;
-            border-radius: 40px;
-            border: 1px solid #cbd5e1;
-            background: white;
-            font-family: inherit;
+            gap: 8px;
+            margin: 16px 0 6px 0;
             font-size: 0.85rem;
-            font-weight: 500;
-            min-width: 220px;
+            color: #334155;
         }
-
+        label i { color: #3b82f6; }
+        select, button, .checkbox-group label, input {
+            padding: 10px 16px;
+            border-radius: 60px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #0f172a;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            outline: none;
+        }
+        input { cursor: text; }
+        select {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%233b82f6" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            appearance: none;
+        }
+        button {
+            background: #3b82f6;
+            border: none;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(59,130,246,0.3);
+        }
+        button:hover { background: #2563eb; transform: translateY(-1px); }
+        button.secondary {
+            background: #f1f5f9;
+            color: #1e293b;
+            box-shadow: none;
+            border: 1px solid #cbd5e1;
+        }
+        button.secondary:hover { background: #e2e8f0; }
+        .save-btn { background: #10b981; }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            background: #f8fafc;
+            padding: 12px 14px;
+            border-radius: 40px;
+            margin-top: 6px;
+            border: 1px solid #e2e8f0;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        .checkbox-group label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            padding: 5px 14px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: 1px solid #cbd5e1;
+            margin: 0;
+        }
+        .checkbox-group label:has(input:checked) {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+        input[type="checkbox"] {
+            accent-color: #3b82f6;
+            width: 14px;
+            height: 14px;
+            margin: 0;
+        }
+        .collapsible {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: #0f172a;
+            font-size: 1rem;
+            text-align: left;
+            border-radius: 60px;
+            padding: 12px 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+        .collapsible i { margin-right: 10px; color: #3b82f6; }
+        .collapsible-content { display: none; padding-top: 16px; }
+        .schedule-table {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 1rem;
+            margin-top: 28px;
+            border: 1px solid #e2e8f0;
+            overflow-x: auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        .schedule-table table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 2px;
+            font-size: 0.7rem;
+            min-width: 1000px;
+        }
+        .schedule-table th {
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 8px 3px;
+            border-radius: 16px;
+            font-weight: 600;
+        }
+        .schedule-table td {
+            background: #fefefe;
+            border-radius: 14px;
+            padding: 8px 3px;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid #eef2ff;
+        }
+        .busy { background: #fee2e2 !important; color: #991b1b; }
+        .free { background: #dcfce7 !important; color: #166534; }
+        .lesson-cell { cursor: pointer; }
+        .assignments-wrapper { overflow-x: auto; margin-top: 1rem; border-radius: 24px; }
+        .assignment-table { width: 100%; border-collapse: collapse; min-width: 600px; font-size: 0.85rem; }
+        .assignment-table th, .assignment-table td { border: 1px solid #e2e8f0; padding: 8px 6px; vertical-align: top; }
+        .assignment-table th { background: #f8fafc; font-weight: 600; }
+        .assignment-table td:first-child { white-space: nowrap; text-align: center; font-weight: 600; }
+        .replacement-item { background: #f8fafc; padding: 8px; margin-bottom: 8px; border-radius: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+        .icon-button {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            width: 32px;
+            height: 32px;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #334155;
+        }
+        .icon-button.add { background: #dcfce7; color: #166534; }
+        .icon-button.add:hover { background: #10b981; color: white; }
+        .icon-button.remove { background: #fee2e2; color: #991b1b; }
+        .icon-button.remove:hover { background: #ef4444; color: white; }
+        .flex-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+        footer { text-align: center; margin-top: 32px; font-size: 0.75rem; color: #64748b; }
+        
+        /* Таблица замен кабинетов */
+        .swaps-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 0.85rem;
+        }
+        .swaps-table th, .swaps-table td {
+            border: 1px solid #e2e8f0;
+            padding: 8px 6px;
+            vertical-align: middle;
+        }
+        .swaps-table th { background: #f8fafc; font-weight: 600; }
+        .inline-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+        .inline-row > div { flex: 1; min-width: 100px; }
+        
+        /* Отчётные стили (эталон) */
         .report-container {
             background: #ffffff;
             border-radius: 24px;
@@ -58,7 +208,6 @@
             border: 1px solid #e2e8f0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         }
-
         .report-header {
             display: flex;
             justify-content: space-between;
@@ -69,7 +218,6 @@
             padding-bottom: 0.5rem;
             border-bottom: 2px solid #e2e8f0;
         }
-
         .report-header h3 {
             margin: 0;
             font-size: 1.4rem;
@@ -79,7 +227,6 @@
             background-clip: text;
             color: transparent;
         }
-
         .report-meta {
             font-size: 0.75rem;
             background: #f1f5f9;
@@ -88,52 +235,27 @@
             color: #1e293b;
             text-align: right;
         }
-
-        .report-table-wrapper {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+        .report-table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .teacher-selector {
+            background: white;
+            border-radius: 60px;
+            padding: 8px 20px;
+            margin-bottom: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            border: 1px solid #e2e8f0;
         }
-
-        /* Desktop styles */
         @media (min-width: 641px) {
-            .report-table {
-                width: 100%;
-                border-collapse: collapse;
-                font-size: 0.8rem;
-                min-width: 600px;
-            }
-            .report-table th, .report-table td {
-                border: 1px solid #e2e8f0;
-                padding: 8px 6px;
-                vertical-align: top;
-                text-align: left;
-                word-break: break-word;
-            }
-            .report-table td:not(:last-child),
-            .report-table th:not(:last-child) {
-                white-space: nowrap;
-            }
-            .report-table th:first-child, .report-table td:first-child {
-                white-space: nowrap;
-                width: 1%;
-            }
-            .report-table th {
-                background: #f8fafc;
-                font-weight: 600;
-                font-size: 0.75rem;
-            }
-            .report-table tr.my-replacement {
-                background-color: #fef9c3;
-                border-left: 5px solid #eab308;
-            }
+            .report-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 600px; }
+            .report-table th, .report-table td { border: 1px solid #e2e8f0; padding: 8px 6px; vertical-align: top; text-align: left; }
+            .report-table th:first-child, .report-table td:first-child { white-space: nowrap; width: 1%; }
+            .report-table th { background: #f8fafc; font-weight: 600; font-size: 0.75rem; }
+            .report-table tr.my-replacement { background-color: #fef9c3; border-left: 5px solid #eab308; }
         }
-
-        /* Mobile cards */
         @media (max-width: 640px) {
-            .report-table, .report-table thead, .report-table tbody, 
-            .report-table tr, .report-table th, .report-table td {
-                display: block;
-            }
+            .report-table, .report-table thead, .report-table tbody, .report-table tr, .report-table th, .report-table td { display: block; }
             .report-table thead { display: none; }
             .report-table tr {
                 margin-bottom: 1rem;
@@ -141,21 +263,14 @@
                 border-radius: 20px;
                 background: white;
                 padding: 0.75rem;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-                transition: all 0.2s;
             }
-            .report-table tr.my-replacement {
-                background: #fef9c3 !important;
-                border-left: 5px solid #eab308;
-                box-shadow: 0 4px 12px rgba(234,179,8,0.2);
-            }
+            .report-table tr.my-replacement { background: #fef9c3 !important; border-left: 5px solid #eab308; }
             .report-table td {
                 border: none;
                 padding: 0.5rem 0;
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: space-between;
-                align-items: flex-start;
                 gap: 0.75rem;
                 font-size: 0.8rem;
             }
@@ -166,324 +281,21 @@
                 width: 35%;
                 flex-shrink: 0;
                 font-size: 0.75rem;
-                text-transform: uppercase;
-                letter-spacing: 0.3px;
                 background: #f8fafc;
                 padding: 4px 8px;
                 border-radius: 20px;
                 display: inline-block;
                 text-align: center;
             }
-            .report-table td:last-child { flex-direction: column; }
             .report-table td:last-child::before { width: 100%; margin-bottom: 6px; }
         }
-
-        .replacement-teacher { font-weight: 700; color: #0f172a; }
-        .report-table td a {
-            word-break: break-all;
-            color: #3b82f6;
-            text-decoration: none;
-        }
-        .report-table td a:hover { text-decoration: underline; }
-
-        /* Скрываем лишние элементы (кнопки экспорта и пр.) */
-        button, .icon-button, .collapsible, .flex-buttons, footer, #exportReportBtn, .no-export {
-            display: none;
-        }
-    </style>
-</head>
-<body>
-<div class="container-export">
-    <div class="teacher-selector">
-        <label><i class="fas fa-chalkboard-user"></i> Мои замены / My covers:</label>
-        <select id="teacherSelect">
-            <option value="">-- Выберите учителя / Select a teacher --</option>
-        </select>
-    </div>
-
-    <!-- ========== ТАБЛИЦА 1: ЗАМЕНЫ УЧИТЕЛЕЙ / TEACHER SUBSTITUTIONS ========== -->
-    <div class="report-container">
-        <div class="report-header">
-            <h3><i class="fas fa-clipboard-list"></i> Замены учителей / Teacher covers · 1 июня / June 1</h3>
-            <div class="report-meta">
-                <i class="fas fa-calendar-alt"></i> Понедельник, 2026-06-01 / Monday, 2026-06-01<br>
-                <i class="fas fa-user-slash"></i> Отсутствуют / Absent: Mr Smith, Dr Lyanchuk
-            </div>
-        </div>
+        .replacement-teacher { font-weight: 700; }
+    </style></head><body><div id="reportContent"><div class="teacher-selector"><label><i class="fas fa-chalkboard-user"></i> Мои замены / My covers:</label><select id="reportTeacherSelect"><option value="">-- Выберите учителя --</option><option value="Gredina E.N.">Gredina E.N.</option><option value="Mr Kolganov">Mr Kolganov</option><option value="Mr Passmore">Mr Passmore</option><option value="Ms Krasilnikova">Ms Krasilnikova</option><option value="Ryazankina E.V.">Ryazankina E.V.</option><option value="Savinkov L.L.">Savinkov L.L.</option><option value="Ustimenkova R.S.">Ustimenkova R.S.</option></select></div>
+        <div class="report-container"><div class="report-header"><h3><i class="fas fa-clipboard-list"></i> Замены учителей / Teacher covers · Вторник, 2026-06-02</h3><div class="report-meta"><i class="fas fa-calendar-alt"></i> Вторник, 2026-06-02<br><i class="fas fa-user-slash"></i> Отсутствуют: Zakomornaya E.I., Varyushin A.V., Mr Smith, Ekaterina Kiyko</div></div>
+        <div class="report-table-wrapper"><table class="report-table" id="replacementsTable"><thead><tr><th>Урок(и)</th><th>Время</th><th>Класс(ы)</th><th>Предмет</th><th>Кабинет</th><th>Кого заменяем</th><th>Кто заменяет</th><th>Комментарий</th></tr></thead><tbody><tr data-teacher="Ms Krasilnikova"><td data-label="Урок(и)"><strong>1–2</strong></td><td data-label="Время">8:40–10:00</td><td data-label="Класс(ы)">8Y10M</td><td data-label="Предмет">История</td><td data-label="Кабинет">Singapore (Green room)</td><td data-label="Кого заменяем">Varyushin A.V.</td><td data-label="Кто заменяет" class="replacement-teacher">Ms Krasilnikova</td><td data-label="Комментарий">Пожалуйста, свяжитесь с Артем Викторовичем по поводу задания</td></tr><tr data-teacher="Mr Kolganov"><td data-label="Урок(и)"><strong>3–4</strong></td><td data-label="Время">10:20–11:40</td><td data-label="Класс(ы)">11Y13</td><td data-label="Предмет">Математика</td><td data-label="Кабинет">New York</td><td data-label="Кого заменяем">Zakomornaya E.I.</td><td data-label="Кто заменяет" class="replacement-teacher">Mr Kolganov</td><td data-label="Комментарий">—</td></tr><tr data-teacher="Savinkov L.L."><td data-label="Урок(и)"><strong>3–4</strong></td><td data-label="Время">10:20–11:40</td><td data-label="Класс(ы)">10Y12</td><td data-label="Предмет">Computer Science</td><td data-label="Кабинет">St Petersburg</td><td data-label="Кого заменяем">Mr Smith</td><td data-label="Кто заменяет" class="replacement-teacher">Savinkov L.L.</td><td data-label="Комментарий">Совместите группы, пожалуйста. Задание можно попросить у Регины Сергеевны</td></tr><tr data-teacher="Ryazankina E.V."><td data-label="Урок(и)"><strong>5</strong></td><td data-label="Время">11:50–12:30</td><td data-label="Класс(ы)">5Y7M</td><td data-label="Предмет">История</td><td data-label="Кабинет">Thailand</td><td data-label="Кого заменяем">Varyushin A.V.</td><td data-label="Кто заменяет" class="replacement-teacher">Ryazankina E.V.</td><td data-label="Комментарий">—</td></tr><tr data-teacher="Mr Passmore"><td data-label="Урок(и)"><strong>5–6</strong></td><td data-label="Время">11:50–14:10</td><td data-label="Класс(ы)">5Y7D, 8Y10D</td><td data-label="Предмет">Digital Lit</td><td data-label="Кабинет">Shanghai</td><td data-label="Кого заменяем">Mr Smith</td><td data-label="Кто заменяет" class="replacement-teacher">Mr Passmore</td><td data-label="Комментарий">—</td></tr><tr data-teacher="Gredina E.N."><td data-label="Урок(и)"><strong>6–7</strong></td><td data-label="Время">13:30–14:50</td><td data-label="Класс(ы)">11Y13</td><td data-label="Предмет">Обществознание</td><td data-label="Кабинет">New York</td><td data-label="Кого заменяем">Varyushin A.V.</td><td data-label="Кто заменяет" class="replacement-teacher">Gredina E.N.</td><td data-label="Комментарий">—</td></tr><tr data-teacher="Ustimenkova R.S."><td data-label="Урок(и)"><strong>8–9</strong></td><td data-label="Время">15:00–16:20</td><td data-label="Класс(ы)">6Y8D, 6Y8M</td><td data-label="Предмет">Computer Science</td><td data-label="Кабинет">Shanghai</td><td data-label="Кого заменяем">Mr Smith</td><td data-label="Кто заменяет" class="replacement-teacher">Ustimenkova R.S.</td><td data-label="Комментарий">—</td></tr></tbody></table></div></div>
+        <div class="report-container"><div class="report-header"><h3><i class="fas fa-door-open"></i> Замены кабинетов / Classroom covers</h3></div>
         <div class="report-table-wrapper">
-            <table class="report-table" id="replacementsTable">
-                <thead>
-                    <tr>
-                        <th>Урок(и) / Lesson(s)</th>
-                        <th>Время / Time</th>
-                        <th>Класс(ы) / Class(es)</th>
-                        <th>Предмет / Subject</th>
-                        <th>Кабинет / Classroom</th>
-                        <th>Кого заменяем / Replacing</th>
-                        <th>Кто заменяет / Cover teacher</th>
-                        <th>Комментарий / Comment</th>
-                    </tr>
-                </thead>
-                <tbody id="replacementsBody">
-                    <!-- 1–2 Ustimenkova -->
-                    <tr data-teacher="Ustimenkova R.S.">
-                        <td data-label="Урок(и) / Lesson(s)"><strong>1–2</strong></td>
-                        <td data-label="Время / Time">8:40–10:00</td>
-                        <td data-label="Класс(ы) / Class(es)">10Y12</td>
-                        <td data-label="Предмет / Subject">Computer Science</td>
-                        <td data-label="Кабинет / Classroom">Vienna</td>
-                        <td data-label="Кого заменяем / Replacing">Mr Smith</td>
-                        <td data-label="Кто заменяет / Substitute teacher" class="replacement-teacher">Ustimenkova R.S.</td>
-                        <td data-label="Комментарий / Comment">—</td>
-                    </tr>
-                    <!-- 3–4 Ms Krasilnikova, Mr Parker -->
-                    <tr data-teacher="Ms Krasilnikova">
-                        <td data-label="Урок(и) / Lesson(s)"><strong>3–4</strong></td>
-                        <td data-label="Время / Time">10:20–11:40</td>
-                        <td data-label="Класс(ы) / Class(es)">6Y8D, 6Y8M</td>
-                        <td data-label="Предмет / Subject">Science</td>
-                        <td data-label="Кабинет / Classroom">Japan</td>
-                        <td data-label="Кого заменяем / Replacing">Dr Lyanchuk</td>
-                        <td data-label="Кто заменяет / Substitute teacher" class="replacement-teacher">Ms Krasilnikova, Mr Parker</td>
-                        <td data-label="Комментарий / Comment">Additional preparation for the final English test.<br> Come to an agreement between yourselves; you can each run a 40‑minute lesson</td>
-                    </tr>
-                    <!-- 5 Ms Alieva -->
-                    <tr data-teacher="Ms Alieva">
-                        <td data-label="Урок(и) / Lesson(s)"><strong>5</strong></td>
-                        <td data-label="Время / Time">11:50–12:30</td>
-                        <td data-label="Класс(ы) / Class(es)">7Y9D, 7Y9M</td>
-                        <td data-label="Предмет / Subject">Digital Lit</td>
-                        <td data-label="Кабинет / Classroom">Shanghai</td>
-                        <td data-label="Кого заменяем / Replacing">Mr Smith</td>
-                        <td data-label="Кто заменяет / Substitute teacher" class="replacement-teacher">Ms Alieva</td>
-                        <td data-label="Комментарий / Comment">Алексей Олегович поможет с заданием, обратитесь к нему / Alexey Olegovich will help with the task, please contact him</td>
-                    </tr>
-                    <!-- 8–9 Ryazankina E.V. Digital Lit -->
-                    <tr data-teacher="Ryazankina E.V.">
-                        <td data-label="Урок(и) / Lesson(s)"><strong>8–9</strong></td>
-                        <td data-label="Время / Time">15:00–16:20</td>
-                        <td data-label="Класс(ы) / Class(es)">5Y7M</td>
-                        <td data-label="Предмет / Subject">Digital Lit</td>
-                        <td data-label="Кабинет / Classroom">Shanghai</td>
-                        <td data-label="Кого заменяем / Replacing">Mr Smith</td>
-                        <td data-label="Кто заменяет / Substitute teacher" class="replacement-teacher">Ryazankina E.V.</td>
-                        <td data-label="Комментарий / Comment">
-                            <a href="https://xn--h1adlhdnlo2c.xn--p1ai/lessons/ai-evolution/" target="_blank">📘 Ссылка на урок / Lesson link</a>. Ребята могут пройти несколько тренажеров по цифровой безопасности.<br> Убедитесь, пожалуйста, перед уроком, что планшеты заряжены / Students can go through several digital safety simulators. Please ensure tablets are charged before the lesson.
-                        </td>
-                    </tr>
-                    <!-- 8–9 Ryzhova A.E. Science -->
-                    <tr data-teacher="Ryzhova A.E.">
-                        <td data-label="Урок(и) / Lesson(s)"><strong>8–9</strong></td>
-                        <td data-label="Время / Time">15:00–16:20</td>
-                        <td data-label="Класс(ы) / Class(es)">7Y9M</td>
-                        <td data-label="Предмет / Subject">Science</td>
-                        <td data-label="Кабинет / Classroom">Japan</td>
-                        <td data-label="Кого заменяем / Replacing">Dr Lyanchuk</td>
-                        <td data-label="Кто заменяет / Substitute teacher" class="replacement-teacher">Ryzhova A.E.</td>
-                        <td data-label="Комментарий / Comment">—</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- ========== ТАБЛИЦА 2: ЗАМЕНЫ КАБИНЕТОВ / CLASSROOM SUBSTITUTIONS ========== -->
-    <div class="report-container">
-        <div class="report-header">
-            <h3><i class="fas fa-door-open"></i> Замены кабинетов / Classroom covers</h3>
-           
-        </div>
-        <div class="report-table-wrapper">
-            <table class="report-table" id="roomsSwapTable">
-                <thead>
-                    <tr>
-                        <th>Урок(и) / Lesson(s)</th>
-                        <th>Время / Time</th>
-                        <th>Кабинет / Classroom</th>
-                        <th>Класс(ы) / Class(es)</th>
-                        <th>Учитель / Teacher</th>
-                    </tr>
-                </thead>
-                <tbody id="roomsSwapBody">
-                    <!-- 1–2: Шанхай <-> Los Angeles (Ms Revne / Здор) -->
-                    <tr data-lesson-start="1">
-                        <td data-label="Урок(и) / Lesson(s)"><strong>1–2</strong></td>
-                        <td data-label="Время / Time">8:40–10:00</td>
-                        <td data-label="Кабинет / Classroom">Shanghai</td>
-                        <td data-label="Класс(ы) / Class(es)">9Y11</td>
-                        <td data-label="Учитель / Teacher">Здор Е.В.</td>
-                    </tr>
-                    <tr data-lesson-start="1">
-                        <td data-label="Урок(и) / Lesson(s)"><strong>1–2</strong></td>
-                        <td data-label="Время / Time">8:40–10:00</td>
-                        <td data-label="Кабинет / Classroom">Los Angeles</td>
-                        <td data-label="Класс(ы) / Class(es)">8Y10</td>
-                        <td data-label="Учитель / Teacher">Ms Revne</td>
-                    </tr>
-                    <!-- 3–4: Thailand <-> Los Angeles (Алиева / Баранова) -->
-                    <tr data-lesson-start="3">
-                        <td data-label="Урок(и) / Lesson(s)"><strong>3–4</strong></td>
-                        <td data-label="Время / Time">10:20–11:40</td>
-                        <td data-label="Кабинет / Classroom">Thailand</td>
-                        <td data-label="Класс(ы) / Class(es)">5Y7</td>
-                        <td data-label="Учитель / Teacher">Баранова А.Н.</td>
-                    </tr>
-                    <tr data-lesson-start="3">
-                        <td data-label="Урок(и) / Lesson(s)"><strong>3–4</strong></td>
-                        <td data-label="Время / Time">10:20–11:40</td>
-                        <td data-label="Кабинет / Classroom">Los Angeles</td>
-                        <td data-label="Класс(ы) / Class(es)">8Y10</td>
-                        <td data-label="Учитель / Teacher">Ms Alieva</td>
-                    </tr>
-                    <!-- 5–7: India <-> Los Angeles (Дьячкова / Сухих) -->
-                    <tr data-lesson-start="5">
-                        <td data-label="Урок(и) / Lesson(s)"><strong>5–7</strong></td>
-                        <td data-label="Время / Time">11:50–14:40</td>
-                        <td data-label="Кабинет / Classroom">India</td>
-                        <td data-label="Класс(ы) / Class(es)">9Y11</td>
-                        <td data-label="Учитель / Teacher">Сухих Е.В.</td>
-                    </tr>
-                    <tr data-lesson-start="5">
-                        <td data-label="Урок(и) / Lesson(s)"><strong>5–7</strong></td>
-                        <td data-label="Время / Time">11:50–14:40</td>
-                        <td data-label="Кабинет / Classroom">Los Angeles</td>
-                        <td data-label="Класс(ы) / Class(es)">8Y10</td>
-                        <td data-label="Учитель / Teacher">Дьячкова О.Г.</td>
-                    </tr>
-                    <!-- 8–9: Manchester <-> Los Angeles (Колганов / Passmore) -->
-                    <tr data-lesson-start="8">
-                        <td data-label="Урок(и) / Lesson(s)"><strong>8–9</strong></td>
-                        <td data-label="Время / Time">15:00–16:20</td>
-                        <td data-label="Кабинет / Classroom">Manchester</td>
-                        <td data-label="Класс(ы) / Class(es)">9Y11</td>
-                        <td data-label="Учитель / Teacher">Mr Passmore</td>
-                    </tr>
-                    <tr data-lesson-start="8">
-                        <td data-label="Урок(и) / Lesson(s)"><strong>8–9</strong></td>
-                        <td data-label="Время / Time">15:00–16:20</td>
-                        <td data-label="Кабинет / Classroom">Los Angeles</td>
-                        <td data-label="Класс(ы) / Class(es)">8Y10</td>
-                        <td data-label="Учитель / Teacher">Mr Kolganov</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div style="margin-top: 24px; text-align: center; font-size: 0.7rem; color: #64748b;">Сформировано в системе «Covers» / Generated in «Covers» system</div>
-</div>
-
-<script>
-    (function() {
-        // Helper: extract starting lesson number from string like "1–2" or "5"
-        function getLessonStart(lessonStr) {
-            if (!lessonStr) return Infinity;
-            const text = lessonStr.replace(/<[^>]*>/g, '').trim();
-            const match = text.match(/(\d+)/);
-            return match ? parseInt(match[1], 10) : Infinity;
-        }
-
-        // ----- TABLE 1: Teacher substitutions sorting & highlighting -----
-        function sortRowsByLesson() {
-            const tbody = document.getElementById('replacementsBody');
-            if (!tbody) return;
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            rows.forEach(row => {
-                const firstCell = row.querySelector('td:first-child');
-                row._lessonStart = firstCell ? getLessonStart(firstCell.innerText || firstCell.textContent) : Infinity;
-            });
-            rows.sort((a, b) => a._lessonStart - b._lessonStart);
-            rows.forEach(row => tbody.appendChild(row));
-        }
-
-        function extractAllTeachersFromReplacements() {
-            const teacherSet = new Set();
-            const rows = document.querySelectorAll('#replacementsBody tr');
-            rows.forEach(row => {
-                const replacementCell = row.querySelector('td.replacement-teacher');
-                if (!replacementCell) return;
-                let cellText = replacementCell.innerText || replacementCell.textContent;
-                if (!cellText || cellText.trim() === '—') return;
-                const parts = cellText.split(',').map(p => p.trim()).filter(p => p && p !== '—');
-                parts.forEach(t => teacherSet.add(t));
-            });
-            return Array.from(teacherSet).sort((a, b) => a.localeCompare(b));
-        }
-
-        function populateTeacherSelect() {
-            const select = document.getElementById('teacherSelect');
-            if (!select) return;
-            const teachers = extractAllTeachersFromReplacements();
-            const currentValue = select.value;
-            select.innerHTML = '<option value="">-- Выберите учителя / Select a teacher --</option>';
-            teachers.forEach(teacher => {
-                const option = document.createElement('option');
-                option.value = teacher;
-                option.textContent = teacher;
-                select.appendChild(option);
-            });
-            if (currentValue && teachers.includes(currentValue)) select.value = currentValue;
-            else select.value = "";
-        }
-
-        function highlightMyReplacements() {
-            const select = document.getElementById('teacherSelect');
-            if (!select) return;
-            const selected = select.value;
-            const rows = document.querySelectorAll('#replacementsBody tr');
-            let firstMatch = null;
-            rows.forEach(row => {
-                const replacementCell = row.querySelector('td.replacement-teacher');
-                if (!replacementCell) return;
-                let cellText = replacementCell.innerText || replacementCell.textContent;
-                const isMatch = (selected && cellText && cellText !== '—') && 
-                                 (cellText === selected || 
-                                  cellText.split(',').map(p => p.trim()).includes(selected));
-                if (isMatch) {
-                    row.classList.add('my-replacement');
-                    if (!firstMatch) firstMatch = row;
-                } else {
-                    row.classList.remove('my-replacement');
-                }
-            });
-            if (firstMatch) firstMatch.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        // ----- TABLE 2: Classroom substitutions sorting -----
-        function sortRoomsSwapTable() {
-            const tbody = document.getElementById('roomsSwapBody');
-            if (!tbody) return;
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            rows.forEach(row => {
-                const firstCell = row.querySelector('td:first-child');
-                let start = Infinity;
-                if (firstCell) {
-                    const text = firstCell.innerText || firstCell.textContent;
-                    const match = text.match(/(\d+)/);
-                    if (match) start = parseInt(match[1], 10);
-                }
-                row._lessonStart = start;
-            });
-            rows.sort((a, b) => a._lessonStart - b._lessonStart);
-            rows.forEach(row => tbody.appendChild(row));
-        }
-
-        // ----- INIT -----
-        function init() {
-            sortRowsByLesson();
-            populateTeacherSelect();
-            highlightMyReplacements();
-            const select = document.getElementById('teacherSelect');
-            if (select) select.addEventListener('change', highlightMyReplacements);
-            sortRoomsSwapTable();
-        }
-        
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
-    })();
-</script>
-</body>
-</html>
+            <table class="report-table">
+                <thead><tr><th>Урок(и)</th><th>Время</th><th>Исходный кабинет</th><th>Новый кабинет</th><th>Класс(ы)</th><th>Учитель(и)</th><th>Комментарий</th></tr></thead>
+                <tbody><tr><td data-label="Урок(и)">
+                    <strong>1–2</strong></td><td data-label="Время">8:40–10:00</td><td data-label="Исходный кабинет">Singapore (Green room)</td><td data-label="Новый кабинет">Los Angeles</td><td data-label="Класс(ы)">8Y10</td><td data-label="Учитель(и)">Ms Krasilnikova</td><td data-label="Комментарий">—</td></tr><tr><td data-label="Урок(и)"><strong>1–2</strong></td><td data-label="Время">8:40–10:00</td><td data-label="Исходный кабинет">Los Angeles</td><td data-label="Новый кабинет">Singapore (Green room)</td><td data-label="Класс(ы)">6Y8</td><td data-label="Учитель(и)">Baranova A. N.</td><td data-label="Комментарий">—</td></tr><tr><td data-label="Урок(и)"><strong>5</strong></td><td data-label="Время">11:50–12:30</td><td data-label="Исходный кабинет">Paris</td><td data-label="Новый кабинет">Los Angeles</td><td data-label="Класс(ы)">8Y10</td><td data-label="Учитель(и)">Savinkov L.L.</td><td data-label="Комментарий">—</td></tr><tr><td data-label="Урок(и)"><strong>6–7</strong></td><td data-label="Время">13:30–14:50</td><td data-label="Исходный кабинет">Thailand</td><td data-label="Новый кабинет">Los Angeles</td><td data-label="Класс(ы)">8Y10</td><td data-label="Учитель(и)">Volkov M.M.</td><td data-label="Комментарий">—</td></tr><tr><td data-label="Урок(и)"><strong>8–9</strong></td><td data-label="Время">15:00–16:20</td><td data-label="Исходный кабинет">Singapore (Green room)</td><td data-label="Новый кабинет">Los Angeles</td><td data-label="Класс(ы)">8Y10</td><td data-label="Учитель(и)">Mr Skliar</td><td data-label="Комментарий">—</td></tr><tr><td data-label="Урок(и)"><strong>8–9</strong></td><td data-label="Время">15:00–16:20</td><td data-label="Исходный кабинет">Los Angeles</td><td data-label="Новый кабинет">Singapore (Green room)</td><td data-label="Класс(ы)">5Y7</td><td data-label="Учитель(и)">Baranova A.N.</td><td data-label="Комментарий">—</td></tr></tbody></table></div></div><div style="margin-top: 24px; text-align: center; font-size: 0.7rem; color: #64748b;">Сформировано в системе «Covers»</div></div></body></html>
