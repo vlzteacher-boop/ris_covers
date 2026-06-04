@@ -1,4 +1,10 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Отчёт о заменах</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"><link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet"><style>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Отчёт о заменах — Кабинеты</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&amp;display=swap" rel="stylesheet">
+    <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #f1f5f9;
@@ -290,8 +296,117 @@
             .report-table td:last-child::before { width: 100%; margin-bottom: 6px; }
         }
         .replacement-teacher { font-weight: 700; }
-    </style></head><body><div id="reportContent"><div class="teacher-selector"><label><i class="fas fa-chalkboard-user"></i> Мои замены / My covers:</label><select id="reportTeacherSelect"><option value="">-- Выберите учителя --</option><option value="Kurenkov A.S.">Kurenkov A.S.</option><option value="Mr Kolganov">Mr Kolganov</option><option value="Mr Parker">Mr Parker</option><option value="Mr Paterson, Ms Alieva">Mr Paterson, Ms Alieva</option><option value="Ms Revne">Ms Revne</option><option value="Ms Smirnova">Ms Smirnova</option><option value="Novikova S.G.">Novikova S.G.</option><option value="Vasiliyeva U.V.">Vasiliyeva U.V.</option></select></div>
-        <div class="report-container"><div class="report-header"><h3><i class="fas fa-clipboard-list"></i> Замены учителей / Teacher covers · Среда, 2026-06-03</h3><div class="report-meta"><i class="fas fa-calendar-alt"></i> Среда, 2026-06-03<br><i class="fas fa-user-slash"></i> Отсутствуют: Zdor E.V., Mr Smith, Dr Lyanchuk, Ryazankina E.V.</div></div>
-        <div class="report-table-wrapper"><table class="report-table" id="replacementsTable"><thead><tr><th>Урок(и)</th><th>Время</th><th>Класс(ы)</th><th>Предмет</th><th>Кабинет</th><th>Кого заменяем</th><th>Кто заменяет</th><th>Комментарий</th></tr></thead><tbody><tr data-teacher="Mr Kolganov"><td data-label="Урок(и)"><strong>1–2</strong></td><td data-label="Время">8:40–10:00</td><td data-label="Класс(ы)">9Y11</td><td data-label="Предмет">Математика</td><td data-label="Кабинет">Los Angeles</td><td data-label="Кого заменяем">Zdor E.V.</td><td data-label="Кто заменяет" class="replacement-teacher">Mr Kolganov</td><td data-label="Комментарий">EAL. Exam preparing</td></tr><tr data-teacher="Mr Parker"><td data-label="Урок(и)"><strong>1–2</strong></td><td data-label="Время">8:40–10:00</td><td data-label="Класс(ы)">6Y8D, 6Y8M</td><td data-label="Предмет">Science</td><td data-label="Кабинет">Japan</td><td data-label="Кого заменяем">Dr Lyanchuk</td><td data-label="Кто заменяет" class="replacement-teacher">Mr Parker</td><td data-label="Комментарий">—</td></tr><tr data-teacher="Mr Paterson, Ms Alieva"><td data-label="Урок(и)"><strong>3–4</strong></td><td data-label="Время">10:20–11:40</td><td data-label="Класс(ы)">8Y10D, 8Y10M</td><td data-label="Предмет">Physics</td><td data-label="Кабинет">Japan</td><td data-label="Кого заменяем">Dr Lyanchuk</td><td data-label="Кто заменяет" class="replacement-teacher">Mr Paterson, Ms Alieva</td><td data-label="Комментарий">Please assign Dr. Lyanchuk's group to each other.</td></tr><tr data-teacher="Ms Revne"><td data-label="Урок(и)"><strong>5</strong></td><td data-label="Время">11:50–12:30</td><td data-label="Класс(ы)">5Y7D</td><td data-label="Предмет">Digital Lit</td><td data-label="Кабинет">Shanghai</td><td data-label="Кого заменяем">Mr Smith</td><td data-label="Кто заменяет" class="replacement-teacher">Ms Revne</td><td data-label="Комментарий">math final exam analysis, maybe</td></tr><tr data-teacher="Kurenkov A.S."><td data-label="Урок(и)"><strong>5</strong></td><td data-label="Время">11:50–12:30</td><td data-label="Класс(ы)">8Y10D, 8Y10M</td><td data-label="Предмет">Physics</td><td data-label="Кабинет">Japan</td><td data-label="Кого заменяем">Dr Lyanchuk</td><td data-label="Кто заменяет" class="replacement-teacher">Kurenkov A.S.</td><td data-label="Комментарий">Объедините группы, пожалуйста</td></tr><tr data-teacher="Novikova S.G."><td data-label="Урок(и)"><strong>6–7</strong></td><td data-label="Время">13:30–14:50</td><td data-label="Класс(ы)">8Y10D, 8Y10M</td><td data-label="Предмет">Математика</td><td data-label="Кабинет">Los Angeles</td><td data-label="Кого заменяем">Zdor E.V.</td><td data-label="Кто заменяет" class="replacement-teacher">Novikova S.G.</td><td data-label="Комментарий">Возьмите, пожалуйста, распечатанное задание у Алексей Олеговича</td></tr><tr data-teacher="Ms Smirnova"><td data-label="Урок(и)"><strong>6–7</strong></td><td data-label="Время">13:30–14:50</td><td data-label="Класс(ы)">6Y8M</td><td data-label="Предмет">Digital Lit</td><td data-label="Кабинет">Shanghai</td><td data-label="Кого заменяем">Mr Smith</td><td data-label="Кто заменяет" class="replacement-teacher">Ms Smirnova</td><td data-label="Комментарий">Alexey Olegovich will help with tasks</td></tr><tr data-teacher="Vasiliyeva U.V."><td data-label="Урок(и)"><strong>6–7</strong></td><td data-label="Время">13:30–14:50</td><td data-label="Класс(ы)">7Y9D</td><td data-label="Предмет">Science</td><td data-label="Кабинет">Paris</td><td data-label="Кого заменяем">Dr Lyanchuk</td><td data-label="Кто заменяет" class="replacement-teacher">Vasiliyeva U.V.</td><td data-label="Комментарий">—</td></tr><tr data-teacher="Mr Kolganov"><td data-label="Урок(и)"><strong>8–9</strong></td><td data-label="Время">15:00–16:20</td><td data-label="Класс(ы)">9Y11</td><td data-label="Предмет">Science</td><td data-label="Кабинет">St Petersburg</td><td data-label="Кого заменяем">Dr Lyanchuk</td><td data-label="Кто заменяет" class="replacement-teacher">Mr Kolganov</td><td data-label="Комментарий">EAL. Exam preparing</td></tr></tbody></table></div></div>
-        <div class="report-container"><div class="report-header"><h3><i class="fas fa-door-open"></i> Замены кабинетов / Classroom covers</h3></div>
-        <div class="report-table-wrapper"><table class="report-table"><thead><tr><th>Урок(и)</th><th>Время</th><th>Исходный кабинет</th><th>Новый кабинет</th><th>Класс(ы)</th><th>Учитель(и)</th><th>Комментарий</th></tr></thead><tbody><tr><td data-label="Урок(и)"><strong>1–2</strong></td><td data-label="Время">8:40–10:00</td><td data-label="Исходный кабинет">Singapore (Green room)</td><td data-label="Новый кабинет">Los Angeles</td><td data-label="Класс(ы)">8Y10</td><td data-label="Учитель(и)">Ms Balaeva</td><td data-label="Комментарий">—</td></tr><tr><td data-label="Урок(и)"><strong>8–9</strong></td><td data-label="Время">15:00–16:20</td><td data-label="Исходный кабинет">Paris</td><td data-label="Новый кабинет">Los Angeles</td><td data-label="Класс(ы)">8Y10</td><td data-label="Учитель(и)">Baranova A.N.</td><td data-label="Комментарий">—</td></tr></tbody></table></div></div><div style="margin-top: 24px; text-align: center; font-size: 0.7rem; color: #64748b;">Сформировано в системе «Covers»</div></div></body></html>
+    </style>
+</head>
+<body>
+<div id="reportContent">
+    <div class="teacher-selector">
+        <label><i class="fas fa-chalkboard-user"></i> Мои замены / My covers:</label>
+        <select id="reportTeacherSelect">
+            <option value="">-- Выберите учителя --</option>
+            <option value="Baranova A.N., Seleznev A.O.">Baranova A.N., Seleznev A.O.</option>
+            <option value="Mr Parker">Mr Parker</option>
+            <option value="Mr Passmore">Mr Passmore</option>
+            <option value="Mr Sinkevich">Mr Sinkevich</option>
+            <option value="Ms Alieva">Ms Alieva</option>
+            <option value="Ms Smirnova">Ms Smirnova</option>
+            <option value="Ryzhova A.E.">Ryzhova A.E.</option>
+            <option value="Ustimenkova R.S.">Ustimenkova R.S.</option>
+        </select>
+    </div>
+    
+    <div class="report-container">
+        <div class="report-header">
+            <h3><i class="fas fa-clipboard-list"></i> Замены учителей / Teacher covers · Четверг, 2026-06-04</h3>
+            <div class="report-meta"><i class="fas fa-calendar-alt"></i> Четверг, 2026-06-04<br><i class="fas fa-user-slash"></i> Отсутствуют: Zdor E.V., Mr Smith, Dr Lyanchuk, Ryazankina E.V.</div>
+        </div>
+        <div class="report-table-wrapper">
+            <table class="report-table" id="replacementsTable">
+                <thead>
+                    <tr><th>Урок(и)</th><th>Время</th><th>Класс(ы)</th><th>Предмет</th><th>Кабинет</th><th>Кого заменяем</th><th>Кто заменяет</th><th>Комментарий</th></tr>
+                </thead>
+                <tbody>
+                    <tr data-teacher="Baranova A.N., Seleznev A.O."><td data-label="Урок(и)"><strong>1–2</strong></td><td data-label="Время">8:40–10:00</td><td data-label="Класс(ы)">5Y7D, 5Y7M, 6Y8D, 6Y8M</td><td data-label="Предмет">Математика</td><td data-label="Кабинет">New York</td><td data-label="Кого заменяем">Zdor E.V.</td><td data-label="Кто заменяет" class="replacement-teacher">Baranova A.N., Seleznev A.O.</td><td data-label="Комментарий">Объедините группы, пожалуйста</td></tr>
+                    <tr data-teacher="Ustimenkova R.S."><td data-label="Урок(и)"><strong>1–2</strong></td><td data-label="Время">8:40–10:00</td><td data-label="Класс(ы)">10Y12</td><td data-label="Предмет">Computer Science</td><td data-label="Кабинет">Vienna</td><td data-label="Кого заменяем">Mr Smith</td><td data-label="Кто заменяет" class="replacement-teacher">Ustimenkova R.S.</td><td data-label="Комментарий">—</td></tr>
+                    <tr data-teacher="Ryzhova A.E."><td data-label="Урок(и)"><strong>1–2</strong></td><td data-label="Время">8:40–10:00</td><td data-label="Класс(ы)">7Y9D</td><td data-label="Предмет">Science</td><td data-label="Кабинет">Japan</td><td data-label="Кого заменяем">Dr Lyanchuk</td><td data-label="Кто заменяет" class="replacement-teacher">Ryzhova A.E.</td><td data-label="Комментарий">Помогите, пожалуйста, с проведением final test</td></tr>
+                    <tr data-teacher="Mr Sinkevich"><td data-label="Урок(и)"><strong>3–4</strong></td><td data-label="Время">10:20–11:40</td><td data-label="Класс(ы)">8Y10D, 8Y10M</td><td data-label="Предмет">Математика</td><td data-label="Кабинет">Los Angeles</td><td data-label="Кого заменяем">Zdor E.V.</td><td data-label="Кто заменяет" class="replacement-teacher">Mr Sinkevich</td><td data-label="Комментарий">Обратитесь к Алексею Олеговичу за заданием</td></tr>
+                    <tr data-teacher="Ms Alieva"><td data-label="Урок(и)"><strong>5</strong></td><td data-label="Время">11:50–12:30</td><td data-label="Класс(ы)">8Y10M</td><td data-label="Предмет">Digital Lit</td><td data-label="Кабинет">Shanghai</td><td data-label="Кого заменяем">Mr Smith</td><td data-label="Кто заменяет" class="replacement-teacher">Ms Alieva</td><td data-label="Комментарий">Ask Mr Passmore about tasks please</td></tr>
+                    <tr data-teacher="Mr Parker"><td data-label="Урок(и)"><strong>5</strong></td><td data-label="Время">11:50–12:30</td><td data-label="Класс(ы)">8Y10D, 8Y10M</td><td data-label="Предмет">Science</td><td data-label="Кабинет">Japan</td><td data-label="Кого заменяем">Dr Lyanchuk</td><td data-label="Кто заменяет" class="replacement-teacher">Mr Parker</td><td data-label="Комментарий">—</td></tr>
+                    <tr data-teacher="Baranova A.N., Seleznev A.O."><td data-label="Урок(и)"><strong>6–7</strong></td><td data-label="Время">13:30–14:50</td><td data-label="Класс(ы)">5Y7D, 5Y7M, 6Y8D, 6Y8M</td><td data-label="Предмет">Математика</td><td data-label="Кабинет">New York</td><td data-label="Кого заменяем">Zdor E.V.</td><td data-label="Кто заменяет" class="replacement-teacher">Baranova A.N., Seleznev A.O.</td><td data-label="Комментарий">Объедините группы, пожалуйста</td></tr>
+                    <tr data-teacher="Ms Smirnova"><td data-label="Урок(и)"><strong>6–7</strong></td><td data-label="Время">13:30–14:50</td><td data-label="Класс(ы)">6Y8D</td><td data-label="Предмет">Digital Lit</td><td data-label="Кабинет">Shanghai</td><td data-label="Кого заменяем">Mr Smith</td><td data-label="Кто заменяет" class="replacement-teacher">Ms Smirnova</td><td data-label="Комментарий">Ask Mr Passmore about tasks please</td></tr>
+                    <tr data-teacher="Mr Passmore"><td data-label="Урок(и)"><strong>8–9</strong></td><td data-label="Время">15:00–16:20</td><td data-label="Класс(ы)">8Y10D</td><td data-label="Предмет">Computer Science</td><td data-label="Кабинет">Shanghai</td><td data-label="Кого заменяем">Mr Smith</td><td data-label="Кто заменяет" class="replacement-teacher">Mr Passmore</td><td data-label="Комментарий">—</td></tr>
+                    <tr data-teacher="—"><td data-label="Урок(и)"><strong>8–9</strong></td><td data-label="Время">15:00–16:20</td><td data-label="Класс(ы)">9Y11</td><td data-label="Предмет">Science</td><td data-label="Кабинет">Japan</td><td data-label="Кого заменяем">Dr Lyanchuk</td><td data-label="Кто заменяет" class="replacement-teacher">—</td><td data-label="Комментарий">—</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="report-container">
+        <div class="report-header">
+            <h3><i class="fas fa-door-open"></i> Замены кабинетов / Classroom covers</h3>
+        </div>
+        <div class="report-table-wrapper">
+            <table class="report-table">
+                <thead>
+                    <tr><th>Урок(и)</th><th>Время</th><th>Исходный кабинет</th><th>Новый кабинет</th><th>Класс(ы)</th><th>Учитель(и)</th><th>Комментарий</th></tr>
+                </thead>
+                <tbody>
+                    <!-- 1. 8Y10, Dyachkova O.G. -->
+                    <tr>
+                        <td data-label="Урок(и)"><strong>1–2</strong></td>
+                        <td data-label="Время">8:40–10:00</td>
+                        <td data-label="Исходный кабинет">India</td>
+                        <td data-label="Новый кабинет">Los Angeles</td>
+                        <td data-label="Класс(ы)">8Y10</td>
+                        <td data-label="Учитель(и)">Dyachkova O.G.</td>
+                        <td data-label="Комментарий">—</td>
+                    </tr>
+                    <!-- 2. 6Y8, Baranova A.N. -->
+                    <tr>
+                        <td data-label="Урок(и)"><strong>1–2</strong></td>
+                        <td data-label="Время">8:40–10:00</td>
+                        <td data-label="Исходный кабинет">Los Angeles</td>
+                        <td data-label="Новый кабинет">India</td>
+                        <td data-label="Класс(ы)">6Y8</td>
+                        <td data-label="Учитель(и)">Baranova A.N.</td>
+                        <td data-label="Комментарий">—</td>
+                    </tr>
+                    <!-- Третья строка удалена -->
+                    <!-- 4. Mr Skliar 8Y10 -->
+                    <tr>
+                        <td data-label="Урок(и)"><strong>6–7</strong></td>
+                        <td data-label="Время">13:30–14:50</td>
+                        <td data-label="Исходный кабинет">Singapore (Green room)</td>
+                        <td data-label="Новый кабинет">Los Angeles</td>
+                        <td data-label="Класс(ы)">8Y10</td>
+                        <td data-label="Учитель(и)">Mr Skliar</td>
+                        <td data-label="Комментарий">—</td>
+                    </tr>
+                    <!-- 5. Baranova A.N. 5Y7 -->
+                    <tr>
+                        <td data-label="Урок(и)"><strong>6–7</strong></td>
+                        <td data-label="Время">13:30–14:50</td>
+                        <td data-label="Исходный кабинет">Los Angeles</td>
+                        <td data-label="Новый кабинет">Singapore (Green room)</td>
+                        <td data-label="Класс(ы)">5Y7</td>
+                        <td data-label="Учитель(и)">Baranova A.N.</td>
+                        <td data-label="Комментарий">—</td>
+                    </tr>
+                    <!-- 6. Mr Passmore 8Y10 -->
+                    <tr>
+                        <td data-label="Урок(и)"><strong>8–9</strong></td>
+                        <td data-label="Время">15:00–16:20</td>
+                        <td data-label="Исходный кабинет">Los Angeles</td>
+                        <td data-label="Новый кабинет">Shanghai</td>
+                        <td data-label="Класс(ы)">8Y10</td>
+                        <td data-label="Учитель(и)">Mr Passmore</td>
+                        <td data-label="Комментарий">—</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div style="margin-top: 24px; text-align: center; font-size: 0.7rem; color: #64748b;">Сформировано в системе «Covers»</div>
+</div>
+</body>
+</html>
