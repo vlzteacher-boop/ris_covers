@@ -26,7 +26,6 @@
             color: transparent;
             margin-bottom: 1.5rem;
         }
-        /* Сообщение без лишних эмодзи */
         .info-message {
             background: #ffffff;
             border-radius: 20px;
@@ -404,8 +403,6 @@
         }
         .replacement-teacher { font-weight: 700; }
         .curator-selector { margin-top: 1rem; margin-bottom: 1rem; background: #f8fafc; padding: 0.75rem 1rem; border-radius: 60px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-        
-        /* Сдержанный стиль для заголовков отчёта куратора — без синей дуги и лишних украшений */
         .curator-table-title {
             margin-top: 20px;
             margin-bottom: 12px;
@@ -426,7 +423,6 @@
     <div class="container">
         <h1><i class="fas fa-chalkboard-teacher"></i> Отчёт о заменах / Substitutions Report</h1>
 
-        <!-- Информационное сообщение -->
         <div class="info-message">
             <div class="info-message-icon">
                 <i class="fas fa-door-open"></i>
@@ -451,13 +447,14 @@
                 <option value="Ekaterina Kiyko">Ekaterina Kiyko</option>
                 <option value="Nikonova U.A.">Nikonova U.A.</option>
                 <option value="Ustimenkova R.S.">Ustimenkova R.S.</option>
+                <option value="Novikova S.G.">Novikova S.G.</option>
             </select>
         </div>
 
         <div class="report-container">
             <div class="report-header">
                 <h3><i class="fas fa-clipboard-list"></i> Замены учителей / Teacher covers · Friday, 2026-06-05</h3>
-                <div class="report-meta"><i class="fas fa-calendar-alt"></i> Пятница, 2026-06-05 / Friday, 2026-06-05<br><i class="fas fa-user-slash"></i> Отсутствуют / Absent: Zdor E.V., Mr Smith</div>
+                <div class="report-meta"><i class="fas fa-calendar-alt"></i> Пятница, 2026-06-05 / Friday, 2026-06-05<br><i class="fas fa-user-slash"></i> Отсутствуют / Absent: Zdor E.V., Mr Smith, Belova A.V.</div>
             </div>
             <div class="report-table-wrapper">
                 <table class="report-table" id="replacementsTable">
@@ -503,6 +500,17 @@
                             <td data-label="Кого заменяем / Replacing">Mr Smith</td>
                             <td data-label="Кто заменяет / Substitute" class="replacement-teacher">Nikonova U.A.</td>
                             <td data-label="Комментарий / Comment">Ask mr Passmore about tasks, please</td>
+                        </tr>
+                        <!-- Новая строка по запросу пользователя -->
+                        <tr data-teacher="Novikova S.G.">
+                            <td data-label="Урок(и) / Lesson(s)"><strong>5</strong></td>
+                            <td data-label="Время / Time">11:50–12:30</td>
+                            <td data-label="Класс(ы) / Class(es)">6Y8</td>
+                            <td data-label="Предмет / Subject">Литература</td>
+                            <td data-label="Кабинет / Room">India</td>
+                            <td data-label="Кого заменяем / Replacing">Belova A.V.</td>
+                            <td data-label="Кто заменяет / Substitute" class="replacement-teacher">Novikova S.G.</td>
+                            <td data-label="Комментарий / Comment">Объединение групп</td>
                         </tr>
                     </tbody>
                 </table>
@@ -578,10 +586,13 @@
 </div>
 
 <script>
+    // Данные для динамического построения таблиц (используются в отчёте куратора)
     const teacherRowsData = [
         {"lessonDisplay":"1–2","timeRange":"8:40–10:00","className":"9Y11","subject":"Математика","roomInfo":"India","absentName":"Zdor E.V.","assignedName":"Ekaterina Kiyko","comment":"Распределите, пожалуйста, ребят по консультациям."},
         {"lessonDisplay":"3–4","timeRange":"10:20–11:40","className":"7Y9D, 7Y9M","subject":"Computer Science","roomInfo":"St Petersburg","absentName":"Mr Smith","assignedName":"Ustimenkova R.S.","comment":"—"},
-        {"lessonDisplay":"7–8","timeRange":"14:10–15:40","className":"5Y7D, 5Y7M","subject":"Computer Science","roomInfo":"Shanghai","absentName":"Mr Smith","assignedName":"Nikonova U.A.","comment":"Ask mr Passmore about tasks, please"}
+        {"lessonDisplay":"7–8","timeRange":"14:10–15:40","className":"5Y7D, 5Y7M","subject":"Computer Science","roomInfo":"Shanghai","absentName":"Mr Smith","assignedName":"Nikonova U.A.","comment":"Ask mr Passmore about tasks, please"},
+        // Новая строка
+        {"lessonDisplay":"5","timeRange":"11:50–12:30","className":"6Y8","subject":"Литература","roomInfo":"India","absentName":"Belova A.V.","assignedName":"Novikova S.G.","comment":"Объединение групп"}
     ];
     const classRowsData = [
         {"lessonDisplay":"1–2","timeRange":"8:40–10:00","originalRoom":"Shanghai","newRoom":"Los Angeles","classes":"8Y10M","teacher":"Zakomornaya E.I.","comment":"—","targetClass":"8Y10M"},
@@ -618,7 +629,6 @@
         });
         const filteredRooms = classRowsData.filter(row => row.targetClass === 'Все' || classesSet.has(row.targetClass));
 
-        // Teacher table — без эмодзи, только иконка Font Awesome, без синей дуги
         let teacherHtml = `<div class="curator-table-title"><i class="fas fa-chalkboard-user"></i> Замены учителей для классов куратора ${escapeHtml(selectedCurator)} (${Array.from(classesSet).join(', ')})<br><span style="font-size:0.85rem; font-weight:normal;">Teacher substitutions for curator's classes</span></div>
                            <div class="report-table-wrapper"><table class="report-table"><thead><tr>
                             <th>Урок(и)<br>Lesson(s)</th>
@@ -645,7 +655,6 @@
         if (filteredTeacher.length === 0) teacherHtml += `<tr><td colspan="8">Нет замен учителей для классов куратора / No teacher substitutions for curator's classes</td></tr>`;
         teacherHtml += `</tbody></table></div>`;
 
-        // Classroom covers table
         let roomHtml = `<div class="curator-table-title" style="margin-top: 28px;"><i class="fas fa-door-open"></i> Замены кабинетов для классов куратора ${escapeHtml(selectedCurator)}<br><span style="font-size:0.85rem; font-weight:normal;">Classroom covers for curator's classes</span></div>
                         <div class="report-table-wrapper"><table class="report-table"><thead><tr>
                             <th>Урок(и)<br>Lesson(s)</th>
