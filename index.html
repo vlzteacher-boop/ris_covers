@@ -448,13 +448,14 @@
                 <option value="Nikonova U.A.">Nikonova U.A.</option>
                 <option value="Ustimenkova R.S.">Ustimenkova R.S.</option>
                 <option value="Novikova S.G.">Novikova S.G.</option>
+                <option value="Mr Ribeiro">Mr Ribeiro</option>
             </select>
         </div>
 
         <div class="report-container">
             <div class="report-header">
                 <h3><i class="fas fa-clipboard-list"></i> Замены учителей / Teacher covers · Friday, 2026-06-05</h3>
-                <div class="report-meta"><i class="fas fa-calendar-alt"></i> Пятница, 2026-06-05 / Friday, 2026-06-05<br><i class="fas fa-user-slash"></i> Отсутствуют / Absent: Zdor E.V., Mr Smith, Belova A.V.</div>
+                <div class="report-meta"><i class="fas fa-calendar-alt"></i> Пятница, 2026-06-05 / Friday, 2026-06-05<br><i class="fas fa-user-slash"></i> Отсутствуют / Absent: Zdor E.V., Mr Smith, Belova A.V., Mr Krasilnikova</div>
             </div>
             <div class="report-table-wrapper">
                 <table class="report-table" id="replacementsTable">
@@ -501,7 +502,6 @@
                             <td data-label="Кто заменяет / Substitute" class="replacement-teacher">Nikonova U.A.</td>
                             <td data-label="Комментарий / Comment">Ask mr Passmore about tasks, please</td>
                         </tr>
-                        <!-- Новая строка по запросу пользователя -->
                         <tr data-teacher="Novikova S.G.">
                             <td data-label="Урок(и) / Lesson(s)"><strong>5</strong></td>
                             <td data-label="Время / Time">11:50–12:30</td>
@@ -511,6 +511,17 @@
                             <td data-label="Кого заменяем / Replacing">Belova A.V.</td>
                             <td data-label="Кто заменяет / Substitute" class="replacement-teacher">Novikova S.G.</td>
                             <td data-label="Комментарий / Comment">Объединение групп</td>
+                        </tr>
+                        <!-- Новая замена: Mr Krasilnikova → Mr Ribeiro, 1-2 урок, 6Y8, Stockholm -->
+                        <tr data-teacher="Mr Ribeiro">
+                            <td data-label="Урок(и) / Lesson(s)"><strong>1–2</strong></td>
+                            <td data-label="Время / Time">8:40–10:00</td>
+                            <td data-label="Класс(ы) / Class(es)">6Y8</td>
+                            <td data-label="Предмет / Subject">—</td>
+                            <td data-label="Кабинет / Room">Stockholm</td>
+                            <td data-label="Кого заменяем / Replacing">Mr Krasilnikova</td>
+                            <td data-label="Кто заменяет / Substitute" class="replacement-teacher">Mr Ribeiro</td>
+                            <td data-label="Комментарий / Comment">—</td>
                         </tr>
                     </tbody>
                 </table>
@@ -591,8 +602,9 @@
         {"lessonDisplay":"1–2","timeRange":"8:40–10:00","className":"9Y11","subject":"Математика","roomInfo":"India","absentName":"Zdor E.V.","assignedName":"Ekaterina Kiyko","comment":"Распределите, пожалуйста, ребят по консультациям."},
         {"lessonDisplay":"3–4","timeRange":"10:20–11:40","className":"7Y9D, 7Y9M","subject":"Computer Science","roomInfo":"St Petersburg","absentName":"Mr Smith","assignedName":"Ustimenkova R.S.","comment":"—"},
         {"lessonDisplay":"7–8","timeRange":"14:10–15:40","className":"5Y7D, 5Y7M","subject":"Computer Science","roomInfo":"Shanghai","absentName":"Mr Smith","assignedName":"Nikonova U.A.","comment":"Ask mr Passmore about tasks, please"},
-        // Новая строка
-        {"lessonDisplay":"5","timeRange":"11:50–12:30","className":"6Y8","subject":"Литература","roomInfo":"India","absentName":"Belova A.V.","assignedName":"Novikova S.G.","comment":"Объединение групп"}
+        {"lessonDisplay":"5","timeRange":"11:50–12:30","className":"6Y8","subject":"Литература","roomInfo":"India","absentName":"Belova A.V.","assignedName":"Novikova S.G.","comment":"Объединение групп"},
+        // Новая замена: Mr Krasilnikova -> Mr Ribeiro
+        {"lessonDisplay":"1–2","timeRange":"8:40–10:00","className":"6Y8","subject":"—","roomInfo":"Stockholm","absentName":"Mr Krasilnikova","assignedName":"Mr Ribeiro","comment":"—"}
     ];
     const classRowsData = [
         {"lessonDisplay":"1–2","timeRange":"8:40–10:00","originalRoom":"Shanghai","newRoom":"Los Angeles","classes":"8Y10M","teacher":"Zakomornaya E.I.","comment":"—","targetClass":"8Y10M"},
@@ -601,7 +613,7 @@
     ];
     const curatorClassesMap = {
         "Ryazankina E.V.": ["5Y7D","5Y7M"],
-        "Ryzhova A.E.": ["6Y8D","6Y8M","7Y9D","7Y9M"],
+        "Ryzhova A.E.": ["6Y8D","6Y8M","7Y9D","7Y9M","6Y8"],   // добавлен общий 6Y8 для отображения замены
         "Ekaterina Kiyko": ["8Y10D","8Y10M","9Y11"]
     };
     const curatorsList = ["Ryazankina E.V.","Ryzhova A.E.","Ekaterina Kiyko"];
@@ -650,7 +662,7 @@
                 <td data-label="Кого заменяем / Replacing">${escapeHtml(row.absentName)}</td>
                 <td data-label="Кто заменяет / Substitute">${escapeHtml(row.assignedName)}</td>
                 <td data-label="Комментарий / Comment">${escapeHtml(row.comment)}</td>
-            </tr>`;
+            截断`;
         }
         if (filteredTeacher.length === 0) teacherHtml += `<tr><td colspan="8">Нет замен учителей для классов куратора / No teacher substitutions for curator's classes</td></tr>`;
         teacherHtml += `</tbody></table></div>`;
