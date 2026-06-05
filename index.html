@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Отчёт о заменах / Substitutions Report</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet">
-    <style>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Отчёт о заменах</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"><link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet"><style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #f1f5f9;
@@ -26,60 +19,13 @@
             color: transparent;
             margin-bottom: 1.5rem;
         }
-        .info-message {
+        .card {
             background: #ffffff;
-            border-radius: 20px;
-            padding: 1.2rem 1.8rem;
-            margin-bottom: 2rem;
-            border-left: 4px solid #3b82f6;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            display: flex;
-            flex-wrap: wrap;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-        .info-message-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 40px;
-            background: #eff6ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #3b82f6;
-            font-size: 1.2rem;
-        }
-        .info-message-text {
-            flex: 1;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-        .info-message-text p {
-            margin-bottom: 0.5rem;
-            color: #1e293b;
-        }
-        .info-message-text strong {
-            font-weight: 600;
-            color: #0f172a;
-        }
-        .lang-divider {
-            height: 1px;
-            background: #e2e8f0;
-            margin: 12px 0;
-        }
-        .highlight-class {
-            background: #fef9c3;
-            color: #854d0e;
-            padding: 0.1rem 0.4rem;
-            border-radius: 20px;
-            font-weight: 500;
-            font-size: 0.9em;
-            display: inline-block;
-            margin: 0 2px;
-        }
-        @media (max-width: 560px) {
-            .info-message { flex-direction: column; align-items: center; text-align: center; }
-            .info-message-icon { width: 36px; height: 36px; }
+            border-radius: 28px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
         }
         label {
             font-weight: 600;
@@ -206,6 +152,8 @@
         .free { background: #dcfce7 !important; color: #166534; }
         .lesson-cell { cursor: pointer; }
         .assignments-wrapper { overflow-x: auto; margin-top: 1rem; border-radius: 24px; }
+        
+        /* ===== ИСПРАВЛЕННЫЕ СТИЛИ ДЛЯ КОНТЕЙНЕРА ЗАМЕН ===== */
         #assignmentsContainer {
             background: #ffffff;
             border-radius: 28px;
@@ -294,6 +242,8 @@
             text-align: center;
             font-size: 0.75rem;
         }
+        /* конец исправлений */
+        
         .assignment-table td:first-child { white-space: nowrap; text-align: center; font-weight: 600; }
         .flex-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
         footer { text-align: center; margin-top: 32px; font-size: 0.75rem; color: #64748b; }
@@ -403,306 +353,223 @@
         }
         .replacement-teacher { font-weight: 700; }
         .curator-selector { margin-top: 1rem; margin-bottom: 1rem; background: #f8fafc; padding: 0.75rem 1rem; border-radius: 60px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-        .curator-table-title {
-            margin-top: 20px;
-            margin-bottom: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            color: #1e293b;
-            padding: 8px 0;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .curator-table-title i {
-            margin-right: 8px;
-            color: #3b82f6;
-        }
-    </style>
-</head>
-<body style="padding: 20px;">
-<div id="reportContent">
-    <div class="container">
-        <h1><i class="fas fa-chalkboard-teacher"></i> Отчёт о заменах / Substitutions Report</h1>
-
-        <div class="info-message">
-            <div class="info-message-icon">
-                <i class="fas fa-door-open"></i>
+        .curator-table-title { margin-top: 20px; margin-bottom: 12px; font-weight: 700; font-size: 1.1rem; color: #1e293b; border-left: 4px solid #3b82f6; padding-left: 12px; background: #f8fafc; border-radius: 12px; line-height: 1.3; }
+    </style></head><body><div id="reportContent">
+            <div class="teacher-selector">
+                <label><i class="fas fa-chalkboard-user"></i> Мои замены / My covers:</label>
+                <select id="reportTeacherSelect"><option value="">-- Выберите учителя --</option><option value="Baranova A.N.">Baranova A.N.</option><option value="Kurenkov A.S., Nikonova U.A.">Kurenkov A.S., Nikonova U.A.</option><option value="Ms Balaeva">Ms Balaeva</option><option value="Ms Balaeva, Mr Kolganov">Ms Balaeva, Mr Kolganov</option><option value="Ms Smirnova">Ms Smirnova</option><option value="Nikonova U.A.">Nikonova U.A.</option><option value="Novikova S.G.">Novikova S.G.</option><option value="Seleznev A.O.">Seleznev A.O.</option><option value="Sukhikh E.V.">Sukhikh E.V.</option><option value="Ustimenkova R.S.">Ustimenkova R.S.</option></select>
             </div>
-            <div class="info-message-text">
-                <p><strong>Уважаемые коллеги!</strong><br>
-                В течение дня возможны оперативные изменения по кабинетам из-за консультаций для классов 
-                <span class="highlight-class">9Y11</span> и <span class="highlight-class">11Y13</span>. Мы поможем вам с поиском свободного кабинета для урока — обратитесь к администратору или следите за обновлениями в этом отчёте.</p>
-                <p><strong>Всё будет хорошо.</strong> Вы справитесь, мы рядом.</p>
-                <div class="lang-divider"></div>
-                <p><strong>Dear colleagues,</strong><br>
-                Classroom changes may occur today due to consultations for grades 
-                <span class="highlight-class">9Y11</span> and <span class="highlight-class">11Y13</span>. We will help you find an available room — please contact the administrator or check for updates in this report.</p>
-                <p><strong>Everything will be fine.</strong> You've got this, we're here to support you.</p>
+            <div class="report-container">
+                <div class="report-header">
+                    <h3><i class="fas fa-clipboard-list"></i> Замены учителей / Teacher covers · Пятница, 2026-06-05</h3>
+                    <div class="report-meta"><i class="fas fa-calendar-alt"></i> Пятница, 2026-06-05<br><i class="fas fa-user-slash"></i> Отсутствуют: Belova A.V., Zdor E.V., Mr Smith, Ms Krasilnikova, Mr Kolganov, Ryazankina E.V.</div>
+                </div>
+                <div class="report-table-wrapper">
+                    <table class="report-table" id="replacementsTable">
+                        <thead>
+                            <tr><th>Урок(и)</th><th>Время</th><th>Класс(ы)</th><th>Предмет</th><th>Кабинет</th><th>Кого заменяем</th><th>Кто заменяет</th><th>Комментарий</th></tr>
+                        </thead>
+                        <tbody><tr data-teacher="Sukhikh E.V.">
+                        <td data-label="Урок(и)"><strong>1–2</strong></td>
+                        <td data-label="Время">8:40–10:00</td>
+                        <td data-label="Класс(ы)">9Y11</td>
+                        <td data-label="Предмет">Математика</td>
+                        <td data-label="Кабинет">India</td>
+                        <td data-label="Кого заменяем">Zdor E.V.</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Sukhikh E.V.</td>
+                        <td data-label="Комментарий">Консультация Русский язык ОГЭ</td>
+                      </tr><tr data-teacher="Seleznev A.O.">
+                        <td data-label="Урок(и)"><strong>1–2</strong></td>
+                        <td data-label="Время">8:40–10:00</td>
+                        <td data-label="Класс(ы)">10Y12</td>
+                        <td data-label="Предмет">General English</td>
+                        <td data-label="Кабинет">Singapore (Green room)</td>
+                        <td data-label="Кого заменяем">Ms Krasilnikova</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Seleznev A.O.</td>
+                        <td data-label="Комментарий">—</td>
+                      </tr><tr data-teacher="—">
+                        <td data-label="Урок(и)"><strong>1–2</strong></td>
+                        <td data-label="Время">8:40–10:00</td>
+                        <td data-label="Класс(ы)">5Y7D, 5Y7M</td>
+                        <td data-label="Предмет">EAL</td>
+                        <td data-label="Кабинет">Manchester</td>
+                        <td data-label="Кого заменяем">Mr Kolganov</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">—</td>
+                        <td data-label="Комментарий">—</td>
+                      </tr><tr data-teacher="Ustimenkova R.S.">
+                        <td data-label="Урок(и)"><strong>3–4</strong></td>
+                        <td data-label="Время">10:20–11:40</td>
+                        <td data-label="Класс(ы)">7Y9D, 7Y9M</td>
+                        <td data-label="Предмет">Computer Science</td>
+                        <td data-label="Кабинет">St Petersburg</td>
+                        <td data-label="Кого заменяем">Mr Smith</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Ustimenkova R.S.</td>
+                        <td data-label="Комментарий">—</td>
+                      </tr><tr data-teacher="Ms Balaeva, Mr Kolganov">
+                        <td data-label="Урок(и)"><strong>3–4</strong></td>
+                        <td data-label="Время">10:20–11:40</td>
+                        <td data-label="Класс(ы)">5Y7D, 5Y7M</td>
+                        <td data-label="Предмет">English</td>
+                        <td data-label="Кабинет">Stockholm</td>
+                        <td data-label="Кого заменяем">Ms Krasilnikova</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Ms Balaeva, Mr Kolganov</td>
+                        <td data-label="Комментарий">Merge groups, please</td>
+                      </tr><tr data-teacher="—">
+                        <td data-label="Урок(и)"><strong>3–4</strong></td>
+                        <td data-label="Время">10:20–11:40</td>
+                        <td data-label="Класс(ы)">5Y7D, 5Y7M</td>
+                        <td data-label="Предмет">EAL</td>
+                        <td data-label="Кабинет">London</td>
+                        <td data-label="Кого заменяем">Mr Kolganov</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">—</td>
+                        <td data-label="Комментарий">—</td>
+                      </tr><tr data-teacher="Novikova S.G.">
+                        <td data-label="Урок(и)"><strong>5</strong></td>
+                        <td data-label="Время">11:50–12:30</td>
+                        <td data-label="Класс(ы)">6Y8D, 6Y8M</td>
+                        <td data-label="Предмет">Литература</td>
+                        <td data-label="Кабинет">India</td>
+                        <td data-label="Кого заменяем">Belova A.V.</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Novikova S.G.</td>
+                        <td data-label="Комментарий">Объедините, пожалуйста, группы</td>
+                      </tr><tr data-teacher="—">
+                        <td data-label="Урок(и)"><strong>5</strong></td>
+                        <td data-label="Время">11:50–12:30</td>
+                        <td data-label="Класс(ы)">7Y9M</td>
+                        <td data-label="Предмет">English</td>
+                        <td data-label="Кабинет">Stockholm</td>
+                        <td data-label="Кого заменяем">Ms Krasilnikova</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">—</td>
+                        <td data-label="Комментарий">—</td>
+                      </tr><tr data-teacher="Baranova A.N.">
+                        <td data-label="Урок(и)"><strong>6</strong></td>
+                        <td data-label="Время">13:30–14:10</td>
+                        <td data-label="Класс(ы)">7Y9M</td>
+                        <td data-label="Предмет">English</td>
+                        <td data-label="Кабинет">Stockholm</td>
+                        <td data-label="Кого заменяем">Ms Krasilnikova</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Baranova A.N.</td>
+                        <td data-label="Комментарий">Возьмите, пожалуйста, задание у Ms Krasilnikova</td>
+                      </tr><tr data-teacher="Kurenkov A.S., Nikonova U.A.">
+                        <td data-label="Урок(и)"><strong>7</strong></td>
+                        <td data-label="Время">14:10–14:50</td>
+                        <td data-label="Класс(ы)">5Y7D, 5Y7M</td>
+                        <td data-label="Предмет">Computer Science</td>
+                        <td data-label="Кабинет">Shanghai</td>
+                        <td data-label="Кого заменяем">Mr Smith</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Kurenkov A.S., Nikonova U.A.</td>
+                        <td data-label="Комментарий">Дополнительная репетиция.; Помогите, пожалуйста, с дисциплиной</td>
+                      </tr><tr data-teacher="—">
+                        <td data-label="Урок(и)"><strong>7–8</strong></td>
+                        <td data-label="Время">14:10–15:40</td>
+                        <td data-label="Класс(ы)">9Y11</td>
+                        <td data-label="Предмет">English</td>
+                        <td data-label="Кабинет">St Petersburg</td>
+                        <td data-label="Кого заменяем">Ms Krasilnikova</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">—</td>
+                        <td data-label="Комментарий">—</td>
+                      </tr><tr data-teacher="Ms Balaeva">
+                        <td data-label="Урок(и)"><strong>7</strong></td>
+                        <td data-label="Время">14:10–14:50</td>
+                        <td data-label="Класс(ы)">6Y8D, 6Y8M</td>
+                        <td data-label="Предмет">English</td>
+                        <td data-label="Кабинет">Thailand</td>
+                        <td data-label="Кого заменяем">Mr Kolganov</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Ms Balaeva</td>
+                        <td data-label="Комментарий">—</td>
+                      </tr><tr data-teacher="Nikonova U.A.">
+                        <td data-label="Урок(и)"><strong>8</strong></td>
+                        <td data-label="Время">15:00–15:40</td>
+                        <td data-label="Класс(ы)">5Y7D, 5Y7M</td>
+                        <td data-label="Предмет">Computer Science</td>
+                        <td data-label="Кабинет">Shanghai</td>
+                        <td data-label="Кого заменяем">Mr Smith</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Nikonova U.A.</td>
+                        <td data-label="Комментарий">Репетиция в актовом зале</td>
+                      </tr><tr data-teacher="Ms Smirnova">
+                        <td data-label="Урок(и)"><strong>8</strong></td>
+                        <td data-label="Время">15:00–15:40</td>
+                        <td data-label="Класс(ы)">6Y8D, 6Y8M</td>
+                        <td data-label="Предмет">English</td>
+                        <td data-label="Кабинет">Thailand</td>
+                        <td data-label="Кого заменяем">Mr Kolganov</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Ms Smirnova</td>
+                        <td data-label="Комментарий">Ask mr Kolganov about tasks please</td>
+                      </tr><tr data-teacher="—">
+                        <td data-label="Урок(и)"><strong>9</strong></td>
+                        <td data-label="Время">15:40–16:20</td>
+                        <td data-label="Класс(ы)">9Y11</td>
+                        <td data-label="Предмет">English</td>
+                        <td data-label="Кабинет">Los Angeles</td>
+                        <td data-label="Кого заменяем">Mr Kolganov</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">—</td>
+                        <td data-label="Комментарий">—</td>
+                      </tr><tr data-teacher="Nikonova U.A.">
+                        <td data-label="Урок(и)"><strong>9</strong></td>
+                        <td data-label="Время">15:40–16:20</td>
+                        <td data-label="Класс(ы)">5Y7D, 5Y7M</td>
+                        <td data-label="Предмет">Class hour</td>
+                        <td data-label="Кабинет">Paris</td>
+                        <td data-label="Кого заменяем">Ryazankina E.V.</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">Nikonova U.A.</td>
+                        <td data-label="Комментарий">Репетиция в актовом зале</td>
+                      </tr></tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-
-        <div class="teacher-selector">
-            <label><i class="fas fa-chalkboard-user"></i> Мои замены / My covers:</label>
-            <select id="reportTeacherSelect">
-                <option value="">-- Выберите учителя / Select teacher --</option>
-                <option value="Ekaterina Kiyko">Ekaterina Kiyko</option>
-                <option value="Nikonova U.A.">Nikonova U.A.</option>
-                <option value="Ustimenkova R.S.">Ustimenkova R.S.</option>
-                <option value="Novikova S.G.">Novikova S.G.</option>
-            </select>
-        </div>
-
-        <div class="report-container">
-            <div class="report-header">
-                <h3><i class="fas fa-clipboard-list"></i> Замены учителей / Teacher covers · Friday, 2026-06-05</h3>
-                <div class="report-meta"><i class="fas fa-calendar-alt"></i> Пятница, 2026-06-05 / Friday, 2026-06-05<br><i class="fas fa-user-slash"></i> Отсутствуют / Absent: Zdor E.V., Mr Smith, Belova A.V.</div>
+            <div class="report-container">
+                <div class="report-header">
+                    <h3><i class="fas fa-door-open"></i> Замены кабинетов / Classroom covers (все)</h3>
+                </div>
+                <div class="report-table-wrapper">
+                    <table class="report-table">
+                        <thead>
+                            <tr><th>Урок(и)</th><th>Время</th><th>Исходный кабинет</th><th>Новый кабинет</th><th>Класс(ы)</th><th>Учитель(и)</th><th>Комментарий</th></tr>
+                        </thead>
+                        <tbody><tr>
+                        <td data-label="Урок(и)"><strong>3–4</strong></td>
+                        <td data-label="Время">10:20–11:40</td>
+                        <td data-label="Исходный кабинет">Japan</td>
+                        <td data-label="Новый кабинет">Los Angeles</td>
+                        <td data-label="Класс(ы)">8Y10M</td>
+                        <td data-label="Учитель(и)">Vasiliyeva U.V.</td>
+                        <td data-label="Комментарий">—</td>
+                      </tr><tr>
+                        <td data-label="Урок(и)"><strong>5–6</strong></td>
+                        <td data-label="Время">11:50–14:10</td>
+                        <td data-label="Исходный кабинет">Shanghai</td>
+                        <td data-label="Новый кабинет">Los Angeles</td>
+                        <td data-label="Класс(ы)">8Y10M</td>
+                        <td data-label="Учитель(и)">Ms Revne</td>
+                        <td data-label="Комментарий">—</td>
+                      </tr><tr>
+                        <td data-label="Урок(и)"><strong>7–8</strong></td>
+                        <td data-label="Время">14:10–15:40</td>
+                        <td data-label="Исходный кабинет">India</td>
+                        <td data-label="Новый кабинет">Los Angeles</td>
+                        <td data-label="Класс(ы)">8Y10M</td>
+                        <td data-label="Учитель(и)">Dyachkova O.G.</td>
+                        <td data-label="Комментарий">—</td>
+                      </tr><tr>
+                        <td data-label="Урок(и)"><strong>9</strong></td>
+                        <td data-label="Время">15:40–16:20</td>
+                        <td data-label="Исходный кабинет">Singapore (Green room)</td>
+                        <td data-label="Новый кабинет">Los Angeles</td>
+                        <td data-label="Класс(ы)">8Y10M</td>
+                        <td data-label="Учитель(и)">Ekaterina Kiyko</td>
+                        <td data-label="Комментарий">—</td>
+                      </tr></tbody>
+                    </table>
+                </div>
             </div>
-            <div class="report-table-wrapper">
-                <table class="report-table" id="replacementsTable">
-                    <thead>
-                        <tr>
-                            <th>Урок(и)<br>Lesson(s)</th>
-                            <th>Время<br>Time</th>
-                            <th>Класс(ы)<br>Class(es)</th>
-                            <th>Предмет<br>Subject</th>
-                            <th>Кабинет<br>Room</th>
-                            <th>Кого заменяем<br>Replacing</th>
-                            <th>Кто заменяет<br>Substitute</th>
-                            <th>Комментарий<br>Comment</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr data-teacher="Ekaterina Kiyko">
-                            <td data-label="Урок(и) / Lesson(s)"><strong>1–2</strong></td>
-                            <td data-label="Время / Time">8:40–10:00</td>
-                            <td data-label="Класс(ы) / Class(es)">9Y11</td>
-                            <td data-label="Предмет / Subject">Математика</td>
-                            <td data-label="Кабинет / Room">India</td>
-                            <td data-label="Кого заменяем / Replacing">Zdor E.V.</td>
-                            <td data-label="Кто заменяет / Substitute" class="replacement-teacher">Ekaterina Kiyko</td>
-                            <td data-label="Комментарий / Comment">Распределите, пожалуйста, ребят по консультациям.</td>
-                        </tr>
-                        <tr data-teacher="Ustimenkova R.S.">
-                            <td data-label="Урок(и) / Lesson(s)"><strong>3–4</strong></td>
-                            <td data-label="Время / Time">10:20–11:40</td>
-                            <td data-label="Класс(ы) / Class(es)">7Y9D, 7Y9M</td>
-                            <td data-label="Предмет / Subject">Computer Science</td>
-                            <td data-label="Кабинет / Room">St Petersburg</td>
-                            <td data-label="Кого заменяем / Replacing">Mr Smith</td>
-                            <td data-label="Кто заменяет / Substitute" class="replacement-teacher">Ustimenkova R.S.</td>
-                            <td data-label="Комментарий / Comment">—</td>
-                        </tr>
-                        <tr data-teacher="Nikonova U.A.">
-                            <td data-label="Урок(и) / Lesson(s)"><strong>7–8</strong></td>
-                            <td data-label="Время / Time">14:10–15:40</td>
-                            <td data-label="Класс(ы) / Class(es)">5Y7D, 5Y7M</td>
-                            <td data-label="Предмет / Subject">Computer Science</td>
-                            <td data-label="Кабинет / Room">Shanghai</td>
-                            <td data-label="Кого заменяем / Replacing">Mr Smith</td>
-                            <td data-label="Кто заменяет / Substitute" class="replacement-teacher">Nikonova U.A.</td>
-                            <td data-label="Комментарий / Comment">Ask mr Passmore about tasks, please</td>
-                        </tr>
-                        <!-- Новая строка по запросу пользователя -->
-                        <tr data-teacher="Novikova S.G.">
-                            <td data-label="Урок(и) / Lesson(s)"><strong>5</strong></td>
-                            <td data-label="Время / Time">11:50–12:30</td>
-                            <td data-label="Класс(ы) / Class(es)">6Y8</td>
-                            <td data-label="Предмет / Subject">Литература</td>
-                            <td data-label="Кабинет / Room">India</td>
-                            <td data-label="Кого заменяем / Replacing">Belova A.V.</td>
-                            <td data-label="Кто заменяет / Substitute" class="replacement-teacher">Novikova S.G.</td>
-                            <td data-label="Комментарий / Comment">Объединение групп</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="report-container curator-block">
+                <div class="report-header">
+                    <h3><i class="fas fa-chalkboard"></i> Отчёт для куратора (по всем классам)</h3>
+                </div>
+                <div class="curator-selector">
+                    <label><i class="fas fa-user-tie"></i> Выберите куратора:</label>
+                    <select id="curatorSelect"><option value="">-- выберите куратора --</option><option value="Ryazankina E.V.">Ryazankina E.V.</option><option value="Ryzhova A.E.">Ryzhova A.E.</option><option value="Ekaterina Kiyko">Ekaterina Kiyko</option></select>
+                </div>
+                <div id="curatorReportArea"><p>Выберите куратора, чтобы увидеть замены по всем его классам.</p></div>
             </div>
-        </div>
-
-        <div class="report-container">
-            <div class="report-header">
-                <h3><i class="fas fa-door-open"></i> Замены кабинетов / Classroom covers (все / all)</h3>
-            </div>
-            <div class="report-table-wrapper">
-                <table class="report-table">
-                    <thead>
-                        <tr>
-                            <th>Урок(и)<br>Lesson(s)</th>
-                            <th>Время<br>Time</th>
-                            <th>Исходный кабинет<br>Original room</th>
-                            <th>Новый кабинет<br>New room</th>
-                            <th>Класс(ы)<br>Class(es)</th>
-                            <th>Учитель(и)<br>Teacher(s)</th>
-                            <th>Комментарий<br>Comment</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td data-label="Урок(и) / Lesson(s)"><strong>1–2</strong></td>
-                            <td data-label="Время / Time">8:40–10:00</td>
-                            <td data-label="Исходный кабинет / Original room">Shanghai</td>
-                            <td data-label="Новый кабинет / New room">Los Angeles</td>
-                            <td data-label="Класс(ы) / Class(es)">8Y10M</td>
-                            <td data-label="Учитель(и) / Teacher(s)">Zakomornaya E.I.</td>
-                            <td data-label="Комментарий / Comment">—</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Урок(и) / Lesson(s)"><strong>1–2</strong></td>
-                            <td data-label="Время / Time">8:40–10:00</td>
-                            <td data-label="Исходный кабинет / Original room">Los Angeles</td>
-                            <td data-label="Новый кабинет / New room">Shanghai</td>
-                            <td data-label="Класс(ы) / Class(es)">6Y8D</td>
-                            <td data-label="Учитель(и) / Teacher(s)">Mr Passmore</td>
-                            <td data-label="Комментарий / Comment">—</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Урок(и) / Lesson(s)"><strong>3–4</strong></td>
-                            <td data-label="Время / Time">10:20–11:40</td>
-                            <td data-label="Исходный кабинет / Original room">Japan</td>
-                            <td data-label="Новый кабинет / New room">Los Angeles</td>
-                            <td data-label="Класс(ы) / Class(es)">8Y10M</td>
-                            <td data-label="Учитель(и) / Teacher(s)">Vasiliyeva U.V.</td>
-                            <td data-label="Комментарий / Comment">—</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="report-container curator-block">
-            <div class="report-header">
-                <h3><i class="fas fa-chalkboard"></i> Отчёт для куратора / Curator's report (по всем классам / by class)</h3>
-            </div>
-            <div class="curator-selector">
-                <label><i class="fas fa-user-tie"></i> Выберите куратора / Select curator:</label>
-                <select id="curatorSelect">
-                    <option value="">-- выберите куратора / select curator --</option>
-                    <option value="Ryazankina E.V.">Ryazankina E.V.</option>
-                    <option value="Ryzhova A.E.">Ryzhova A.E.</option>
-                    <option value="Ekaterina Kiyko">Ekaterina Kiyko</option>
-                </select>
-            </div>
-            <div id="curatorReportArea"><p>Выберите куратора, чтобы увидеть замены по всем его классам. / Select a curator to see replacements for all their classes.</p></div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // Данные для динамического построения таблиц (используются в отчёте куратора)
-    const teacherRowsData = [
-        {"lessonDisplay":"1–2","timeRange":"8:40–10:00","className":"9Y11","subject":"Математика","roomInfo":"India","absentName":"Zdor E.V.","assignedName":"Ekaterina Kiyko","comment":"Распределите, пожалуйста, ребят по консультациям."},
-        {"lessonDisplay":"3–4","timeRange":"10:20–11:40","className":"7Y9D, 7Y9M","subject":"Computer Science","roomInfo":"St Petersburg","absentName":"Mr Smith","assignedName":"Ustimenkova R.S.","comment":"—"},
-        {"lessonDisplay":"7–8","timeRange":"14:10–15:40","className":"5Y7D, 5Y7M","subject":"Computer Science","roomInfo":"Shanghai","absentName":"Mr Smith","assignedName":"Nikonova U.A.","comment":"Ask mr Passmore about tasks, please"},
-        // Новая строка
-        {"lessonDisplay":"5","timeRange":"11:50–12:30","className":"6Y8","subject":"Литература","roomInfo":"India","absentName":"Belova A.V.","assignedName":"Novikova S.G.","comment":"Объединение групп"}
-    ];
-    const classRowsData = [
-        {"lessonDisplay":"1–2","timeRange":"8:40–10:00","originalRoom":"Shanghai","newRoom":"Los Angeles","classes":"8Y10M","teacher":"Zakomornaya E.I.","comment":"—","targetClass":"8Y10M"},
-        {"lessonDisplay":"1–2","timeRange":"8:40–10:00","originalRoom":"Los Angeles","newRoom":"Shanghai","classes":"6Y8D","teacher":"Mr Passmore","comment":"—","targetClass":"6Y8D"},
-        {"lessonDisplay":"3–4","timeRange":"10:20–11:40","originalRoom":"Japan","newRoom":"Los Angeles","classes":"8Y10M","teacher":"Vasiliyeva U.V.","comment":"—","targetClass":"8Y10M"}
-    ];
-    const curatorClassesMap = {
-        "Ryazankina E.V.": ["5Y7D","5Y7M"],
-        "Ryzhova A.E.": ["6Y8D","6Y8M","7Y9D","7Y9M"],
-        "Ekaterina Kiyko": ["8Y10D","8Y10M","9Y11"]
-    };
-    const curatorsList = ["Ryazankina E.V.","Ryzhova A.E.","Ekaterina Kiyko"];
-
-    function escapeHtml(str) {
-        if (!str) return '';
-        return String(str).replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-    }
-
-    function renderCuratorTables(selectedCurator) {
-        const container = document.getElementById('curatorReportArea');
-        if (!selectedCurator || !curatorClassesMap[selectedCurator]) {
-            container.innerHTML = '<p>Выберите куратора, чтобы увидеть замены по всем его классам. / Select a curator to see replacements for all their classes.</p>';
-            return;
-        }
-        const classesSet = new Set(curatorClassesMap[selectedCurator]);
-        const filteredTeacher = teacherRowsData.filter(row => {
-            const rowClasses = row.className.split(',').map(c => c.trim());
-            return rowClasses.some(c => classesSet.has(c));
-        });
-        const filteredRooms = classRowsData.filter(row => row.targetClass === 'Все' || classesSet.has(row.targetClass));
-
-        let teacherHtml = `<div class="curator-table-title"><i class="fas fa-chalkboard-user"></i> Замены учителей для классов куратора ${escapeHtml(selectedCurator)} (${Array.from(classesSet).join(', ')})<br><span style="font-size:0.85rem; font-weight:normal;">Teacher substitutions for curator's classes</span></div>
-                           <div class="report-table-wrapper"><table class="report-table"><thead><tr>
-                            <th>Урок(и)<br>Lesson(s)</th>
-                            <th>Время<br>Time</th>
-                            <th>Класс(ы)<br>Class(es)</th>
-                            <th>Предмет<br>Subject</th>
-                            <th>Кабинет<br>Room</th>
-                            <th>Кого заменяем<br>Replacing</th>
-                            <th>Кто заменяет<br>Substitute</th>
-                            <th>Комментарий<br>Comment</th>
-                            </tr></thead><tbody>`;
-        for (let row of filteredTeacher) {
-            teacherHtml += `<tr>
-                <td data-label="Урок(и) / Lesson(s)"><strong>${row.lessonDisplay}</strong></td>
-                <td data-label="Время / Time">${escapeHtml(row.timeRange)}</td>
-                <td data-label="Класс(ы) / Class(es)">${escapeHtml(row.className)}</td>
-                <td data-label="Предмет / Subject">${escapeHtml(row.subject)}</td>
-                <td data-label="Кабинет / Room">${escapeHtml(row.roomInfo)}</td>
-                <td data-label="Кого заменяем / Replacing">${escapeHtml(row.absentName)}</td>
-                <td data-label="Кто заменяет / Substitute">${escapeHtml(row.assignedName)}</td>
-                <td data-label="Комментарий / Comment">${escapeHtml(row.comment)}</td>
-            </tr>`;
-        }
-        if (filteredTeacher.length === 0) teacherHtml += `<tr><td colspan="8">Нет замен учителей для классов куратора / No teacher substitutions for curator's classes</td></tr>`;
-        teacherHtml += `</tbody></table></div>`;
-
-        let roomHtml = `<div class="curator-table-title" style="margin-top: 28px;"><i class="fas fa-door-open"></i> Замены кабинетов для классов куратора ${escapeHtml(selectedCurator)}<br><span style="font-size:0.85rem; font-weight:normal;">Classroom covers for curator's classes</span></div>
-                        <div class="report-table-wrapper"><table class="report-table"><thead><tr>
-                            <th>Урок(и)<br>Lesson(s)</th>
-                            <th>Время<br>Time</th>
-                            <th>Исходный кабинет<br>Original room</th>
-                            <th>Новый кабинет<br>New room</th>
-                            <th>Класс(ы)<br>Class(es)</th>
-                            <th>Учитель(и)<br>Teacher(s)</th>
-                            <th>Комментарий<br>Comment</th>
-                        </tr></thead><tbody>`;
-        for (let row of filteredRooms) {
-            roomHtml += `<tr>
-                <td data-label="Урок(и) / Lesson(s)"><strong>${row.lessonDisplay}</strong></td>
-                <td data-label="Время / Time">${row.timeRange}</td>
-                <td data-label="Исходный кабинет / Original room">${escapeHtml(row.originalRoom)}</td>
-                <td data-label="Новый кабинет / New room">${escapeHtml(row.newRoom)}</td>
-                <td data-label="Класс(ы) / Class(es)">${escapeHtml(row.classes)}</td>
-                <td data-label="Учитель(и) / Teacher(s)">${escapeHtml(row.teacher)}</td>
-                <td data-label="Комментарий / Comment">${escapeHtml(row.comment)}</td>
-            </tr>`;
-        }
-        if (filteredRooms.length === 0) roomHtml += `<tr><td colspan="7">Нет замен кабинетов для классов куратора / No classroom covers for curator's classes</td></tr>`;
-        roomHtml += `</tbody></table></div>`;
-        container.innerHTML = teacherHtml + roomHtml;
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const curatorSelect = document.getElementById('curatorSelect');
-        if (curatorSelect) {
-            curatorSelect.innerHTML = '<option value="">-- выберите куратора / select curator --</option>' + curatorsList.map(c => '<option value="' + escapeHtml(c) + '">' + escapeHtml(c) + '</option>').join('');
-            curatorSelect.onchange = function(e) { renderCuratorTables(e.target.value); };
-            if (curatorSelect.value) renderCuratorTables(curatorSelect.value);
-        }
-        const teacherFilterSelect = document.getElementById('reportTeacherSelect');
-        if (teacherFilterSelect && teacherRowsData.length) {
-            let uniqueTeachers = [...new Set(teacherRowsData.map(r => r.assignedName).filter(n => n && n !== '—'))];
-            teacherFilterSelect.innerHTML = '<option value="">-- Выберите учителя / Select teacher --</option>' + uniqueTeachers.map(t => '<option value="' + escapeHtml(t) + '">' + escapeHtml(t) + '</option>').join('');
-            teacherFilterSelect.onchange = function() {
-                let val = this.value;
-                document.querySelectorAll('#replacementsTable tbody tr').forEach(row => {
-                    let cell = row.querySelector('td.replacement-teacher');
-                    let teacherCellText = cell ? (cell.innerText || cell.textContent) : '';
-                    if (val && teacherCellText.includes(val)) row.classList.add('my-replacement');
-                    else row.classList.remove('my-replacement');
-                });
-            };
-        }
-    });
-</script>
-</body>
-</html>
+        </div></body></html>
