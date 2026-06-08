@@ -1,4 +1,12 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Отчёт о заменах</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"><link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>«Covers» — замена учителей и кабинетов</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet">
+    <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #f1f5f9;
@@ -153,7 +161,6 @@
         .lesson-cell { cursor: pointer; }
         .assignments-wrapper { overflow-x: auto; margin-top: 1rem; border-radius: 24px; }
         
-        /* ===== ИСПРАВЛЕННЫЕ СТИЛИ ДЛЯ КОНТЕЙНЕРА ЗАМЕН ===== */
         #assignmentsContainer {
             background: #ffffff;
             border-radius: 28px;
@@ -242,7 +249,6 @@
             text-align: center;
             font-size: 0.75rem;
         }
-        /* конец исправлений */
         
         .assignment-table td:first-child { white-space: nowrap; text-align: center; font-weight: 600; }
         .flex-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
@@ -354,166 +360,515 @@
         .replacement-teacher { font-weight: 700; }
         .curator-selector { margin-top: 1rem; margin-bottom: 1rem; background: #f8fafc; padding: 0.75rem 1rem; border-radius: 60px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
         .curator-table-title { margin-top: 20px; margin-bottom: 12px; font-weight: 700; font-size: 1.1rem; color: #1e293b; border-left: 4px solid #3b82f6; padding-left: 12px; background: #f8fafc; border-radius: 12px; line-height: 1.3; }
-    </style></head><body><div id="reportContent">
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🧨 «Covers» — замена учителей и кабинетов</h1>
+    
+    <!-- Добавление уроков -->
+    <div class="vertical-block">
+        <button type="button" id="toggleAddLessonBtn" class="collapsible"><i class="fas fa-layer-group"></i> 📚 Добавить уроки</button>
+        <div id="addLessonForm" class="collapsible-content">
+            <div class="card">
+                <label><i class="fas fa-chalkboard-user"></i> Учитель</label>
+                <select id="teacherSelect"></select>
+                <label><i class="fas fa-calendar-day"></i> День</label>
+                <select id="daySelectAdd"><option value="Monday">Понедельник</option><option value="Tuesday">Вторник</option><option value="Wednesday">Среда</option><option value="Thursday">Четверг</option><option value="Friday">Пятница</option></select>
+                <label><i class="fas fa-clock"></i> Уроки</label>
+                <div id="lessonCheckboxes" class="checkbox-group"></div>
+                <label><i class="fas fa-book-open"></i> Предмет</label>
+                <select id="subjectSelect"></select>
+                <label><i class="fas fa-users"></i> Классы</label>
+                <div id="classCheckboxes" class="checkbox-group"></div>
+                <label><i class="fas fa-door-open"></i> Кабинет</label>
+                <select id="roomSelect"></select>
+                <button id="addLessonBtn"><i class="fas fa-plus-circle"></i> Добавить уроки</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Отсутствующие учителя и замены -->
+    <div class="vertical-block">
+        <div class="card">
+            <h3><i class="fas fa-user-slash"></i> Отсутствующие учителя</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 16px; align-items: flex-end;">
+                <div><label><i class="fas fa-calendar-week"></i> День недели</label><select id="daySelectFind" class="day-select"></select></div>
+                <div><label><i class="fas fa-calendar-alt"></i> Дата</label><div style="display:flex; align-items:center; background:#fff; border:1px solid #cbd5e1; border-radius:60px; padding:0 16px;"><i class="fas fa-calendar-alt" style="color:#3b82f6;"></i><input type="date" id="reportDate" style="border:none; padding:10px 0; width:100%; outline:none;"></div></div>
+            </div>
+            <label><i class="fas fa-ban"></i> Выберите отсутствующих</label>
+            <div id="absentCheckboxes" class="checkbox-group"></div>
+            <button id="showAssignmentsBtn"><i class="fas fa-magic"></i> Показать замены учителей</button>
+        </div>
+    </div>
+
+    <!-- ЗАМЕНЫ КАБИНЕТОВ с выбором учителя и класса -->
+    <div class="card">
+        <h3><i class="fas fa-door-open"></i> Замены кабинетов / Classroom swaps</h3>
+        <div class="inline-row" style="margin-bottom: 20px;">
+            <div><label>День</label><select id="swapDaySelect"><option value="Monday">Понедельник</option><option value="Tuesday">Вторник</option><option value="Wednesday">Среда</option><option value="Thursday">Четверг</option><option value="Friday">Пятница</option></select></div>
+            <div><label>Урок(и) с</label><select id="swapLessonFrom"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select></div>
+            <div><label>по</label><select id="swapLessonTo"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select></div>
+            <div><label>Исходный кабинет</label><select id="swapOrigRoom"></select></div>
+            <div><label>Новый кабинет</label><select id="swapNewRoom"></select></div>
+            <div><label>Учитель (опционально)</label><select id="swapTeacherId"><option value="">Все учителя</option></select></div>
+            <div><label>Класс (опционально)</label><select id="swapClassName"><option value="">Все классы</option></select></div>
+            <div><label>Комментарий</label><input type="text" id="swapComment" placeholder="опционально" style="width: 100%;"></div>
+            <div><button id="addSwapBtn" style="margin-top: 24px;"><i class="fas fa-plus-circle"></i> Добавить замену</button></div>
+        </div>
+        <div id="swapsListDiv" style="overflow-x: auto;">
+            <table class="swaps-table" id="swapsTable">
+                <thead><tr><th>День</th><th>Уроки</th><th>Исходный кабинет</th><th>Новый кабинет</th><th>Учитель</th><th>Класс</th><th>Комментарий</th><th></th></tr></thead>
+                <tbody id="swapsTbody"></tbody>
+            </table>
+        </div>
+        <div class="flex-buttons" style="margin-top: 12px;">
+            <button id="clearSwapsBtn" class="secondary" style="background:#fee2e2;"><i class="fas fa-eraser"></i> Сбросить замены кабинетов</button>
+        </div>
+    </div>
+
+    <!-- Контейнер для назначения замен учителей -->
+    <div id="assignmentsContainer" style="display: none;">
+        <h3><i class="fas fa-exchange-alt"></i> Назначение замен учителей</h3>
+        <div id="assignmentsTableDiv"></div>
+        <button id="saveAllBtn" class="save-btn"><i class="fas fa-database"></i> Сохранить замены учителей</button>
+    </div>
+
+    <!-- Расписание -->
+    <div class="schedule-table">
+        <h3><i class="fas fa-table-list"></i> 📋 Расписание</h3>
+        <div style="overflow-x: auto;">
+            <table id="scheduleGrid">
+                <thead id="gridHead"></thead>
+                <tbody id="gridBody"></tbody>
+            </table>
+        </div>
+        <div class="flex-buttons">
+            <button id="exportBtn" class="secondary"><i class="fas fa-download"></i> Экспорт JSON</button>
+            <button id="importBtn" class="secondary"><i class="fas fa-upload"></i> Импорт JSON</button>
+            <button id="resetBtn" class="secondary"><i class="fas fa-trash-alt"></i> Сбросить всё</button>
+            <button id="clearReplacementsBtn" class="secondary"><i class="fas fa-eraser"></i> Сбросить замены учителей</button>
+            <button id="genReportBtn" class="secondary"><i class="fas fa-file-alt"></i> Отчёт</button>
+            <button id="copyReportForEmailBtn" class="secondary"><i class="fas fa-copy"></i> Копировать отчёт</button>
+        </div>
+    </div>
+
+    <div id="reportContainer" style="display: none;">
+        <div id="reportContent"></div>
+        <button id="exportReportBtn" style="background:#2563eb; margin-top:12px;"><i class="fas fa-external-link-alt"></i> Открыть отчёт в новой вкладке</button>
+    </div>
+    <footer>✅ Удалите урок кликом по красной ячейке. Отчёт включает замены учителей и кабинетов + выбор куратора. Отчёт открывается в новой вкладке (не скачивается).</footer>
+</div>
+
+<script>
+    // ---------- ДАННЫЕ ----------
+    const teachersList = ["Sukhikh E.V.", "Oprishko M.I.", "Belova A.V.", "Novikova S.G.", "Dyachkova O.G.", "Zakomornaya E.I.", "Zdor E.V.", "Seleznev A.O.", "Varyushin A.V.", "Vasiliyeva U.V.", "Savinkov L.L.", "Volkov M.M.", "Kurenkov A.S.", "Ustimenkova R.S.", "Baranova A.N.", "Mr Passmore", "Ms Revne", "Mr Smith", "Mr Paterson", "Dr Lyanchuk", "Mr Parker", "Mr Ribeiro", "Ms Krasilnikova", "Ms Balaeva", "Mr Kolganov", "Mr Sinkevich", "Mr Skliar", "Ms Alieva", "Ms Smirnova", "Rivkina A.", "Ekaterina Kiyko", "Ryzhova A.E.", "Gredina E.N.", "Ryazankina E.V.", "Nikonova U.A."];
+    const classesList = ["5Y7D","5Y7M","6Y8D","6Y8M","7Y9D","7Y9M","8Y10D","8Y10M","9Y11","10Y12","11Y13"];
+    const roomsList = ["Japan","Thailand","India","Singapore (Green room)","Vienna","Library","Beijing","Shanghai","St Petersburg","Manchester","London","Stockholm","Paris","New York","Hong Kong","Los Angeles"];
+    const rawSubjects = ["Русский KS3","Русский KS4","Русский KS5","Литература","Математика KS3","Математика KS3 Olymp","Математика KS4","Математика KS5","Информатика KS3","Информатика KS4","Биология KS3","Биология KS4-5","Биология ЕГЭ","Химия","Био / Хим KS3","Био / Хим KS4","Физика","Физика KS3","Естествознание","История KS3","История KS4/5","Обществознание","Обществознание KS3","Обществознание KS4","Экономика","Право","Иностранный Язык","Финансовая Грамотность","География","PE","Art","Comp Sci","Class hour","General Studies KS3","General Studies KS4","History of Art","Digital Lit KS3","Digital Lit KS4","EAL KS3","EAL KS4","EAL KS5","Правовой Грамотность","Профориентация","History KS3","History KS5","Geography","Business KS4","Business KS5","Maths KS3","Maths KS4","Maths KS5","Maths A level","Science KS3","Science KS4","Economics AS","Sociology AS","Sociology A","History AS","General English AS","English Language AS","Further Maths AS","Study Help","Philosophy A2","Physics A2","French AS","Computer Science AS","English Lit","Russian A Level","PE KS5"];
+    function simplifySubject(s) { return s.replace(/\s+KS3$|\s+KS4$|\s+KS5$|\s+KS4\/5$|\s+Olymp$|\s+A level$|\s+AS$|\s+A2$|\s+ЕГЭ$|\s+KS4-5$/i, '').trim(); }
+    const uniqueSubjects = [...new Set(rawSubjects.map(simplifySubject))].sort();
+    let teachers = teachersList.map((n,i)=>({id:i,name:n}));
+    let lessons = [];
+    let replacements = {};
+    let classroomSwaps = [];
+    const STORAGE_KEY = "covers_full_v12";
+
+    // Кураторы
+    const curatorClassesMap = {
+        "Ryazankina E.V.": ["5Y7D", "5Y7M"],
+        "Ryzhova A.E.": ["6Y8D", "6Y8M", "7Y9D", "7Y9M"],
+        "Ekaterina Kiyko": ["8Y10D", "8Y10M", "9Y11"]
+    };
+    const curatorsList = Object.keys(curatorClassesMap);
+    
+    function saveToLocalStorage() { localStorage.setItem(STORAGE_KEY, JSON.stringify({ teachers, lessons, replacements, classroomSwaps })); }
+    function loadFromLocalStorage() {
+        let raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return false;
+        try { let data = JSON.parse(raw); teachers = data.teachers; lessons = data.lessons; replacements = data.replacements || {}; classroomSwaps = data.classroomSwaps || []; return true; } catch(e){ return false; }
+    }
+    function getTeacherName(id) { return teachers.find(t=>t.id===id)?.name || "?"; }
+    function getLessonsAt(tid,day,per) { return lessons.filter(l=>l.teacherId===tid && l.day===day && l.period===per); }
+    function isTeacherBusy(tid,day,per) { return lessons.some(l=>l.teacherId===tid && l.day===day && l.period===per); }
+    function countDailyLessons(tid, day) { let s = new Set(); lessons.forEach(l=>{ if(l.teacherId===tid && l.day===day) s.add(l.period); }); return s.size; }
+    function countDailyReplacements(tid, day) { let cnt=0; if(!replacements[day]) return 0; for(let a in replacements[day]) for(let p in replacements[day][a]) for(let r of replacements[day][a][p]) if(r.teacherId===tid) cnt++; return cnt; }
+    function teachesAnyClass(tid,day,per, classSet) { return getLessonsAt(tid,day,per).some(l=>classSet.has(l.className)); }
+    function getTimeRangeForPeriods(startPeriod, endPeriod) {
+        const lessonStartEnd = { 1:{start:"8:40",end:"9:20"},2:{start:"9:20",end:"10:00"},3:{start:"10:20",end:"11:00"},4:{start:"11:00",end:"11:40"},5:{start:"11:50",end:"12:30"},6:{start:"13:30",end:"14:10"},7:{start:"14:10",end:"14:50"},8:{start:"15:00",end:"15:40"},9:{start:"15:40",end:"16:20"} };
+        if(startPeriod===endPeriod) return `${lessonStartEnd[startPeriod].start}–${lessonStartEnd[startPeriod].end}`;
+        return `${lessonStartEnd[startPeriod].start}–${lessonStartEnd[endPeriod].end}`;
+    }
+    function getLessonDisplayShort(startPeriod, endPeriod) { return startPeriod===endPeriod ? `${startPeriod}` : `${startPeriod}–${endPeriod}`; }
+    function escapeHtml(str) { return String(str).replace(/[&<>]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]); }
+    
+    // Расписание
+    function renderScheduleGrid() {
+        const days = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
+        const dayRu = { Monday:"ПН", Tuesday:"ВТ", Wednesday:"СР", Thursday:"ЧТ", Friday:"ПТ" };
+        let theadHtml = `<tr><th rowspan="2">Учитель</th>`;
+        for (let d of days) { theadHtml += `<th colspan="9">${dayRu[d]}</th>`; }
+        theadHtml += `</tr>`;
+        for (let i = 0; i < days.length; i++) { for (let p = 1; p <= 9; p++) { theadHtml += `<th>${p}</th>`; } }
+        theadHtml += `</tr>`;
+        document.getElementById('gridHead').innerHTML = theadHtml;
+        
+        let tbodyHtml = '';
+        for (let t of teachers) {
+            tbodyHtml += `<tr><td style="font-weight:bold; background:#f8fafc;">${escapeHtml(t.name)}</td>`;
+            for (let day of days) {
+                for (let p = 1; p <= 9; p++) {
+                    const lessonsHere = getLessonsAt(t.id, day, p);
+                    const busy = lessonsHere.length > 0;
+                    const tooltip = lessonsHere.map(l => `${l.subject} | ${l.className} | каб. ${l.room}`).join('\n') || (busy ? 'занят' : 'свободен');
+                    const cellClass = busy ? 'busy lesson-cell' : 'free';
+                    const display = busy ? `🔴 ${lessonsHere.length}` : '🟢';
+                    tbodyHtml += `<td class="${cellClass}" title="${escapeHtml(tooltip)}" onclick="${busy ? `deleteLessonAt(${t.id},'${day}',${p})` : ''}">${display}</td>`;
+                }
+            }
+            tbodyHtml += `</tr>`;
+        }
+        document.getElementById('gridBody').innerHTML = tbodyHtml;
+    }
+    
+    window.deleteLessonAt = function(tid,day,per) {
+        if(confirm(`Удалить уроки ${getTeacherName(tid)} в ${day} урок ${per}?`)) {
+            lessons = lessons.filter(l=>!(l.teacherId===tid && l.day===day && l.period===per));
+            renderScheduleGrid(); saveToLocalStorage();
+            document.getElementById('assignmentsContainer').style.display = 'none';
+            document.getElementById('reportContainer').style.display = 'none';
+        }
+    };
+    
+    function addLesson() {
+        let tid = parseInt(document.getElementById('teacherSelect').value);
+        if(isNaN(tid)){alert("Выберите учителя");return;}
+        let day = document.getElementById('daySelectAdd').value;
+        let periods = Array.from(document.querySelectorAll('#lessonCheckboxes input:checked')).map(cb=>parseInt(cb.value));
+        if(!periods.length){alert("Выберите уроки");return;}
+        let subject = document.getElementById('subjectSelect').value;
+        let room = document.getElementById('roomSelect').value;
+        let classes = Array.from(document.querySelectorAll('#classCheckboxes input:checked')).map(cb=>cb.value);
+        if(!classes.length){alert("Выберите классы");return;}
+        for(let p of periods) for(let cls of classes) lessons.push({teacherId:tid, day, period:p, subject, className:cls, room});
+        renderScheduleGrid(); saveToLocalStorage();
+        document.querySelectorAll('#lessonCheckboxes input:checked, #classCheckboxes input:checked').forEach(cb=>cb.checked=false);
+        document.getElementById('assignmentsContainer').style.display = 'none';
+        document.getElementById('reportContainer').style.display = 'none';
+        alert(`✅ Добавлено уроков: ${periods.length * classes.length}`);
+    }
+    function initDemoLessons() { lessons = []; replacements = {}; classroomSwaps = []; }
+    
+    // Замены учителей
+    let isRendering = false;
+    function renderAssignmentsTable() {
+        if (isRendering) return;
+        isRendering = true;
+        let day = document.getElementById('daySelectFind').value;
+        let absentIds = Array.from(document.querySelectorAll('#absentCheckboxes input:checked')).map(cb=>parseInt(cb.value));
+        if(!absentIds.length) { alert("Выберите отсутствующих"); isRendering=false; return; }
+        if(!replacements[day]) replacements[day]={};
+        for(let a of absentIds) if(!replacements[day][a]) replacements[day][a]={};
+
+        let html = `<div class="assignments-wrapper"><table class="assignment-table"><thead><tr><th>Урок</th>${absentIds.map(a=>`<th>${escapeHtml(getTeacherName(a))}</th>`).join('')}</thead><tbody>`;
+        for(let p=1;p<=9;p++) {
+            html += `<tr><td style="font-weight:bold; text-align:center;">${p}</td>`;
+            for(let a of absentIds) {
+                let absentLessons = getLessonsAt(a, day, p);
+                let lessonInfo = absentLessons.length ? absentLessons.map(l=>`${l.subject} | ${l.className} | каб.${l.room}`).join('<br>') : '⚠️ нет урока';
+                html += `<td><div style="margin-bottom:8px; background:#f1f5f9; padding:6px; border-radius:18px;">${lessonInfo}</div>`;
+                if(absentLessons.length === 0) html += `<span style="color:#64748b;">урок отсутствует</span>`;
+                else {
+                    let absentClasses = new Set(getLessonsAt(a, day, p).map(l=>l.className));
+                    let currentAbsentSet = new Set(absentIds);
+                    let candidates = [];
+                    for(let t of teachers) {
+                        if(t.id === a || currentAbsentSet.has(t.id)) continue;
+                        let teachesSame = teachesAnyClass(t.id, day, p, absentClasses);
+                        let dailyLoad = countDailyLessons(t.id, day);
+                        let replCount = countDailyReplacements(t.id, day);
+                        if(teachesSame) candidates.push({teacher:t, dailyLoad, replCount, sameClass:true});
+                        else if(!isTeacherBusy(t.id, day, p)) candidates.push({teacher:t, dailyLoad, replCount, sameClass:false});
+                    }
+                    candidates.sort((x,y)=> { if(x.sameClass !== y.sameClass) return x.sameClass ? -1 : 1; return x.dailyLoad - y.dailyLoad; });
+                    let replList = replacements[day][a][p] || [];
+                    let containerId = `repl-${day}-${a}-${p}`;
+                    html += `<div id="${containerId}">`;
+                    for(let idx=0; idx<replList.length; idx++) {
+                        let r = replList[idx];
+                        let teacherOptions = `<option value="">— не назначено —</option>${candidates.map(c=>`<option value="${c.teacher.id}" ${r.teacherId==c.teacher.id ? 'selected' : ''}>${escapeHtml(c.teacher.name)} (уроков: ${c.dailyLoad}, замен: ${c.replCount})${c.sameClass ? ' ✓ та же группа' : ''}</option>`).join('')}`;
+                        html += `<div class="replacement-item" data-day="${day}" data-absent="${a}" data-period="${p}" data-idx="${idx}">
+                                    <select class="candidate-select">${teacherOptions}</select>
+                                    <button class="icon-button remove" data-action="remove"><i class="fas fa-trash-alt"></i></button>
+                                    <input type="text" class="comment-input" placeholder="Комментарий" value="${escapeHtml(r.comment||'')}">
+                                </div>`;
+                    }
+                    html += `<div class="add-button-wrapper"><button class="icon-button add" data-action="add"><i class="fas fa-plus-circle"></i></button></div></div>`;
+                }
+                html += `</div>`;
+            }
+            html += `</tr>`;
+        }
+        html += `</tbody>}</div>`;
+        document.getElementById('assignmentsTableDiv').innerHTML = html;
+        document.getElementById('assignmentsContainer').style.display = 'block';
+        isRendering = false;
+    }
+    document.getElementById('assignmentsTableDiv').addEventListener('change', function(e) {
+        let target = e.target;
+        if(!target.closest('.replacement-item')) return;
+        let parentDiv = target.closest('.replacement-item');
+        let day = parentDiv.dataset.day, absent = parseInt(parentDiv.dataset.absent), period = parseInt(parentDiv.dataset.period), idx = parseInt(parentDiv.dataset.idx);
+        if(!replacements[day]) replacements[day]={};
+        if(!replacements[day][absent]) replacements[day][absent]={};
+        if(!replacements[day][absent][period]) replacements[day][absent][period] = [];
+        if(!replacements[day][absent][period][idx]) replacements[day][absent][period][idx] = { teacherId: null, comment: '' };
+        if(target.classList.contains('candidate-select')) {
+            replacements[day][absent][period][idx].teacherId = target.value ? parseInt(target.value) : null;
+            saveToLocalStorage(); renderAssignmentsTable();
+        } else if(target.classList.contains('comment-input')) {
+            replacements[day][absent][period][idx].comment = target.value.trim();
+            saveToLocalStorage();
+        }
+    });
+    document.getElementById('assignmentsTableDiv').addEventListener('click', function(e) {
+        let target = e.target.closest('.icon-button.add');
+        if(target && target.dataset.action === 'add') {
+            let container = target.closest('div[id^="repl-"]');
+            let match = container.id.match(/repl-(.+)-(\d+)-(\d+)/);
+            if(match) {
+                let day = match[1], absent = parseInt(match[2]), period = parseInt(match[3]);
+                if(!replacements[day]) replacements[day]={};
+                if(!replacements[day][absent]) replacements[day][absent]={};
+                if(!replacements[day][absent][period]) replacements[day][absent][period] = [];
+                replacements[day][absent][period].push({ teacherId: null, comment: '' });
+                saveToLocalStorage(); renderAssignmentsTable();
+            } return;
+        }
+        let rm = e.target.closest('.icon-button.remove');
+        if(rm && rm.dataset.action === 'remove') {
+            let parentDiv = rm.closest('.replacement-item');
+            let day = parentDiv.dataset.day, absent = parseInt(parentDiv.dataset.absent), period = parseInt(parentDiv.dataset.period), idx = parseInt(parentDiv.dataset.idx);
+            if(replacements[day]?.[absent]?.[period]) { replacements[day][absent][period].splice(idx,1); if(replacements[day][absent][period].length===0) delete replacements[day][absent][period]; saveToLocalStorage(); renderAssignmentsTable(); }
+        }
+    });
+    function saveAllAssignments() { saveToLocalStorage(); alert("Замены учителей сохранены"); }
+    function clearAllReplacements() { if(confirm("Сбросить все замены учителей?")) { replacements = {}; saveToLocalStorage(); renderScheduleGrid(); document.getElementById('assignmentsContainer').style.display = 'none'; document.getElementById('reportContainer').style.display = 'none'; alert("Сброшено"); } }
+    
+    // Замены кабинетов
+    function renderSwapsTable() {
+        let tbody = document.getElementById('swapsTbody');
+        if(!tbody) return;
+        tbody.innerHTML = '';
+        classroomSwaps.forEach((swap, idx) => {
+            let row = tbody.insertRow();
+            row.insertCell(0).innerText = swap.day;
+            row.insertCell(1).innerText = `${swap.lessonFrom}–${swap.lessonTo}`;
+            row.insertCell(2).innerText = swap.originalRoom;
+            row.insertCell(3).innerText = swap.newRoom;
+            let teacherName = swap.teacherId !== undefined && swap.teacherId !== null && swap.teacherId !== '' ? getTeacherName(swap.teacherId) : 'Все';
+            row.insertCell(4).innerText = teacherName;
+            let className = swap.className || 'Все';
+            row.insertCell(5).innerText = className;
+            row.insertCell(6).innerText = swap.comment || '—';
+            let delCell = row.insertCell(7);
+            let delBtn = document.createElement('button');
+            delBtn.className = 'icon-button remove';
+            delBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+            delBtn.onclick = () => { classroomSwaps.splice(idx,1); renderSwapsTable(); saveToLocalStorage(); };
+            delCell.appendChild(delBtn);
+        });
+    }
+    function addClassroomSwap() {
+        let day = document.getElementById('swapDaySelect').value;
+        let lessonFrom = parseInt(document.getElementById('swapLessonFrom').value);
+        let lessonTo = parseInt(document.getElementById('swapLessonTo').value);
+        if(lessonFrom > lessonTo) { alert("Урок «от» не может быть больше «до»"); return; }
+        let originalRoom = document.getElementById('swapOrigRoom').value;
+        let newRoom = document.getElementById('swapNewRoom').value;
+        let teacherId = document.getElementById('swapTeacherId').value;
+        let teacherIdVal = teacherId ? parseInt(teacherId) : null;
+        let className = document.getElementById('swapClassName').value;
+        let classNameVal = className ? className : null;
+        let comment = document.getElementById('swapComment').value.trim();
+        if(originalRoom === newRoom) { alert("Исходный и новый кабинет совпадают"); return; }
+        classroomSwaps.push({ day, lessonFrom, lessonTo, originalRoom, newRoom, comment, teacherId: teacherIdVal, className: classNameVal });
+        renderSwapsTable();
+        saveToLocalStorage();
+        document.getElementById('swapComment').value = '';
+    }
+    function clearAllSwaps() { if(confirm("Сбросить все замены кабинетов?")) { classroomSwaps = []; renderSwapsTable(); saveToLocalStorage(); alert("Замены кабинетов удалены"); } }
+    
+    // ---------- ОТЧЁТ С ОТКРЫТИЕМ В НОВОЙ ВКЛАДКЕ (ВМЕСТО СКАЧИВАНИЯ) ----------
+    let lastTeacherRows = [], lastClassRows = [];
+    
+    function getClassFamily(className) {
+        const match = className.match(/^(\d+[A-Z]+\d+)/);
+        if (match) return match[1];
+        return className.substring(0, 4);
+    }
+    
+    function generateUnifiedReport() {
+        let day = document.getElementById('daySelectFind').value;
+        let absentIds = Array.from(document.querySelectorAll('#absentCheckboxes input:checked')).map(cb=>parseInt(cb.value));
+        if(!absentIds.length) { alert("Выберите отсутствующих учителей"); return; }
+        let dateInput = document.getElementById('reportDate').value;
+        let dayNames = { Monday: "Понедельник", Tuesday: "Вторник", Wednesday: "Среда", Thursday: "Четверг", Friday: "Пятница" };
+        let dayRu = dayNames[day] || day;
+        let headerDate = dateInput ? `${dayRu}, ${dateInput}` : dayRu;
+        let absentNames = absentIds.map(id=>getTeacherName(id)).join(', ');
+        
+        // Формируем замены учителей с группировкой
+        let rawItems = [];
+        for(let a of absentIds) {
+            for(let p=1;p<=9;p++) {
+                let absentLessons = getLessonsAt(a, day, p);
+                for(let lesson of absentLessons) {
+                    let replList = replacements[day]?.[a]?.[p] || [];
+                    let assignedTeacherIds = replList.map(r=>r.teacherId).filter(id=>id!==null && id!==undefined);
+                    let comment = replList.map(r=>r.comment).filter(c=>c).join('; ');
+                    rawItems.push({ absentId:a, absentName:getTeacherName(a), period:p, className:lesson.className, subject:lesson.subject, roomInfo:lesson.room, assignedTeacherIds, comment });
+                }
+            }
+        }
+        
+        let tempGroups = new Map();
+        for(let item of rawItems) {
+            let key = `${item.absentId}|${item.subject}|${item.roomInfo}|${item.assignedTeacherIds.sort().join(',')}`;
+            if(!tempGroups.has(key)) {
+                tempGroups.set(key, {
+                    absentId: item.absentId,
+                    absentName: item.absentName,
+                    subject: item.subject,
+                    roomInfo: item.roomInfo,
+                    assignedTeacherIds: [...item.assignedTeacherIds],
+                    periods: new Set(),
+                    classes: new Set(),
+                    comments: new Set()
+                });
+            }
+            let g = tempGroups.get(key);
+            g.periods.add(item.period);
+            g.classes.add(item.className);
+            if(item.comment) g.comments.add(item.comment);
+        }
+        
+        let finalGroups = [];
+        for(let g of tempGroups.values()) {
+            let classesByFamily = new Map();
+            for(let cls of g.classes) {
+                let family = getClassFamily(cls);
+                if(!classesByFamily.has(family)) classesByFamily.set(family, new Set());
+                classesByFamily.get(family).add(cls);
+            }
+            for(let [family, classSet] of classesByFamily.entries()) {
+                finalGroups.push({
+                    absentId: g.absentId,
+                    absentName: g.absentName,
+                    subject: g.subject,
+                    roomInfo: g.roomInfo,
+                    assignedTeacherIds: [...g.assignedTeacherIds],
+                    periods: new Set(g.periods),
+                    classes: new Set(classSet),
+                    comments: new Set(g.comments)
+                });
+            }
+        }
+        
+        let teacherRows = [];
+        for(let g of finalGroups) {
+            let periods = Array.from(g.periods).sort((a,b)=>a-b);
+            let ranges = [];
+            let start = periods[0], end = periods[0];
+            for(let i=1;i<periods.length;i++) {
+                if(periods[i] === end+1) end = periods[i];
+                else { ranges.push({start,end}); start = periods[i]; end = periods[i]; }
+            }
+            ranges.push({start,end});
+            let classesListStr = Array.from(g.classes).sort().join(', ');
+            let assignedNames = g.assignedTeacherIds.map(id=>getTeacherName(id)).filter(n=>n);
+            let assignedStr = assignedNames.length ? assignedNames.join(', ') : '—';
+            let combinedComment = Array.from(g.comments).join('; ') || '—';
+            for(let r of ranges) {
+                teacherRows.push({
+                    lessonDisplay: getLessonDisplayShort(r.start, r.end),
+                    timeRange: getTimeRangeForPeriods(r.start, r.end),
+                    className: classesListStr,
+                    subject: g.subject,
+                    roomInfo: g.roomInfo,
+                    absentName: g.absentName,
+                    assignedName: assignedStr,
+                    comment: combinedComment
+                });
+            }
+        }
+        teacherRows.sort((a,b)=> {
+            let aStart = parseInt(a.lessonDisplay.split('–')[0]);
+            let bStart = parseInt(b.lessonDisplay.split('–')[0]);
+            return aStart - bStart;
+        });
+        lastTeacherRows = teacherRows;
+        
+        // Замены кабинетов
+        let daySwaps = classroomSwaps.filter(s => s.day === day);
+        let classRows = [];
+        for(let swap of daySwaps) {
+            let affectedLessons = lessons.filter(l => l.day === day && l.period >= swap.lessonFrom && l.period <= swap.lessonTo);
+            if(swap.teacherId !== null && swap.teacherId !== undefined && swap.teacherId !== '') affectedLessons = affectedLessons.filter(l => l.teacherId === swap.teacherId);
+            if(swap.className !== null && swap.className !== undefined && swap.className !== '') affectedLessons = affectedLessons.filter(l => l.className === swap.className);
+            let uniqueClasses = new Set(affectedLessons.map(l => l.className));
+            let uniqueTeachers = new Set(affectedLessons.map(l => getTeacherName(l.teacherId)));
+            let classesStr = uniqueClasses.size ? Array.from(uniqueClasses).sort().join(', ') : (swap.className ? swap.className : '—');
+            let teachersStr = uniqueTeachers.size ? Array.from(uniqueTeachers).join(', ') : (swap.teacherId ? getTeacherName(swap.teacherId) : '—');
+            classRows.push({
+                lessonDisplay: getLessonDisplayShort(swap.lessonFrom, swap.lessonTo),
+                timeRange: getTimeRangeForPeriods(swap.lessonFrom, swap.lessonTo),
+                originalRoom: swap.originalRoom,
+                newRoom: swap.newRoom,
+                classes: classesStr,
+                teacher: teachersStr,
+                comment: swap.comment || '—',
+                targetClass: swap.className || 'Все'
+            });
+        }
+        classRows.sort((a,b)=> {
+            let aStart = parseInt(a.lessonDisplay.split('–')[0]);
+            let bStart = parseInt(b.lessonDisplay.split('–')[0]);
+            return aStart - bStart;
+        });
+        lastClassRows = classRows;
+        
+        // Генерация HTML отчёта (полностью такой же, как раньше, но кнопка "Сохранить HTML" заменена)
+        let html = `
             <div class="teacher-selector">
                 <label><i class="fas fa-chalkboard-user"></i> Мои замены / My covers:</label>
-                <select id="reportTeacherSelect"><option value="">-- Выберите учителя --</option><option value="Baranova A.N.">Baranova A.N.</option><option value="Kurenkov A.S., Nikonova U.A.">Kurenkov A.S., Nikonova U.A.</option><option value="Ms Balaeva">Ms Balaeva</option><option value="Ms Balaeva, Mr Kolganov">Ms Balaeva, Mr Kolganov</option><option value="Ms Smirnova">Ms Smirnova</option><option value="Nikonova U.A.">Nikonova U.A.</option><option value="Novikova S.G.">Novikova S.G.</option><option value="Seleznev A.O.">Seleznev A.O.</option><option value="Sukhikh E.V.">Sukhikh E.V.</option><option value="Ustimenkova R.S.">Ustimenkova R.S.</option></select>
+                <select id="reportTeacherSelect"><option value="">-- Выберите учителя --</option></select>
             </div>
             <div class="report-container">
                 <div class="report-header">
-                    <h3><i class="fas fa-clipboard-list"></i> Замены учителей / Teacher covers · Пятница, 2026-06-05</h3>
-                    <div class="report-meta"><i class="fas fa-calendar-alt"></i> Пятница, 2026-06-05<br><i class="fas fa-user-slash"></i> Отсутствуют: Belova A.V., Zdor E.V., Mr Smith, Ms Krasilnikova, Mr Kolganov, Ryazankina E.V.</div>
+                    <h3><i class="fas fa-clipboard-list"></i> Замены учителей / Teacher covers · ${headerDate}</h3>
+                    <div class="report-meta"><i class="fas fa-calendar-alt"></i> ${headerDate}<br><i class="fas fa-user-slash"></i> Отсутствуют: ${escapeHtml(absentNames)}</div>
                 </div>
                 <div class="report-table-wrapper">
                     <table class="report-table" id="replacementsTable">
                         <thead>
                             <tr><th>Урок(и)</th><th>Время</th><th>Класс(ы)</th><th>Предмет</th><th>Кабинет</th><th>Кого заменяем</th><th>Кто заменяет</th><th>Комментарий</th></tr>
                         </thead>
-                        <tbody><tr data-teacher="Sukhikh E.V.">
-                        <td data-label="Урок(и)"><strong>1–2</strong></td>
-                        <td data-label="Время">8:40–10:00</td>
-                        <td data-label="Класс(ы)">9Y11</td>
-                        <td data-label="Предмет">Математика</td>
-                        <td data-label="Кабинет">India</td>
-                        <td data-label="Кого заменяем">Zdor E.V.</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">Sukhikh E.V.</td>
-                        <td data-label="Комментарий">Консультация Русский язык ОГЭ</td>
-                      </tr><tr data-teacher="Seleznev A.O.">
-                        <td data-label="Урок(и)"><strong>1–2</strong></td>
-                        <td data-label="Время">8:40–10:00</td>
-                        <td data-label="Класс(ы)">10Y12</td>
-                        <td data-label="Предмет">General English</td>
-                        <td data-label="Кабинет">Singapore (Green room)</td>
-                        <td data-label="Кого заменяем">Ms Krasilnikova</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">Seleznev A.O.</td>
-                        <td data-label="Комментарий">—</td>
-                      </tr><tr data-teacher="—">
-                        <td data-label="Урок(и)"><strong>1–2</strong></td>
-                        <td data-label="Время">8:40–10:00</td>
-                        <td data-label="Класс(ы)">5Y7D, 5Y7M</td>
-                        <td data-label="Предмет">EAL</td>
-                        <td data-label="Кабинет">Manchester</td>
-                        <td data-label="Кого заменяем">Mr Kolganov</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">—</td>
-                        <td data-label="Комментарий">—</td>
-                      </tr><tr data-teacher="Ustimenkova R.S.">
-                        <td data-label="Урок(и)"><strong>3–4</strong></td>
-                        <td data-label="Время">10:20–11:40</td>
-                        <td data-label="Класс(ы)">7Y9D, 7Y9M</td>
-                        <td data-label="Предмет">Computer Science</td>
-                        <td data-label="Кабинет">St Petersburg</td>
-                        <td data-label="Кого заменяем">Mr Smith</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">Ustimenkova R.S.</td>
-                        <td data-label="Комментарий">—</td>
-                      </tr><tr data-teacher="Ms Balaeva, Mr Kolganov">
-                        <td data-label="Урок(и)"><strong>3–4</strong></td>
-                        <td data-label="Время">10:20–11:40</td>
-                        <td data-label="Класс(ы)">5Y7D, 5Y7M</td>
-                        <td data-label="Предмет">English</td>
-                        <td data-label="Кабинет">Stockholm</td>
-                        <td data-label="Кого заменяем">Ms Krasilnikova</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">Ms Balaeva, Mr Kolganov</td>
-                        <td data-label="Комментарий">Merge groups, please</td>
-                      </tr><tr data-teacher="—">
-                        <td data-label="Урок(и)"><strong>3–4</strong></td>
-                        <td data-label="Время">10:20–11:40</td>
-                        <td data-label="Класс(ы)">5Y7D, 5Y7M</td>
-                        <td data-label="Предмет">EAL</td>
-                        <td data-label="Кабинет">London</td>
-                        <td data-label="Кого заменяем">Mr Kolganov</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">—</td>
-                        <td data-label="Комментарий">—</td>
-                      </tr><tr data-teacher="Novikova S.G.">
-                        <td data-label="Урок(и)"><strong>5</strong></td>
-                        <td data-label="Время">11:50–12:30</td>
-                        <td data-label="Класс(ы)">6Y8D, 6Y8M</td>
-                        <td data-label="Предмет">Литература</td>
-                        <td data-label="Кабинет">India</td>
-                        <td data-label="Кого заменяем">Belova A.V.</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">Novikova S.G.</td>
-                        <td data-label="Комментарий">Объедините, пожалуйста, группы</td>
-                      </tr><tr data-teacher="—">
-                        <td data-label="Урок(и)"><strong>5</strong></td>
-                        <td data-label="Время">11:50–12:30</td>
-                        <td data-label="Класс(ы)">7Y9M</td>
-                        <td data-label="Предмет">English</td>
-                        <td data-label="Кабинет">Stockholm</td>
-                        <td data-label="Кого заменяем">Ms Krasilnikova</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">—</td>
-                        <td data-label="Комментарий">—</td>
-                      </tr><tr data-teacher="Baranova A.N.">
-                        <td data-label="Урок(и)"><strong>6</strong></td>
-                        <td data-label="Время">13:30–14:10</td>
-                        <td data-label="Класс(ы)">7Y9M</td>
-                        <td data-label="Предмет">English</td>
-                        <td data-label="Кабинет">Stockholm</td>
-                        <td data-label="Кого заменяем">Ms Krasilnikova</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">Baranova A.N.</td>
-                        <td data-label="Комментарий">Возьмите, пожалуйста, задание у Ms Krasilnikova</td>
-                      </tr><tr data-teacher="Kurenkov A.S., Nikonova U.A.">
-                        <td data-label="Урок(и)"><strong>7</strong></td>
-                        <td data-label="Время">14:10–14:50</td>
-                        <td data-label="Класс(ы)">5Y7D, 5Y7M</td>
-                        <td data-label="Предмет">Computer Science</td>
-                        <td data-label="Кабинет">Shanghai</td>
-                        <td data-label="Кого заменяем">Mr Smith</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">Kurenkov A.S., Nikonova U.A.</td>
-                        <td data-label="Комментарий">Дополнительная репетиция.; Помогите, пожалуйста, с дисциплиной</td>
-                      </tr><tr data-teacher="—">
-                        <td data-label="Урок(и)"><strong>7–8</strong></td>
-                        <td data-label="Время">14:10–15:40</td>
-                        <td data-label="Класс(ы)">9Y11</td>
-                        <td data-label="Предмет">English</td>
-                        <td data-label="Кабинет">St Petersburg</td>
-                        <td data-label="Кого заменяем">Ms Krasilnikova</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">—</td>
-                        <td data-label="Комментарий">—</td>
-                      </tr><tr data-teacher="Ms Balaeva">
-                        <td data-label="Урок(и)"><strong>7</strong></td>
-                        <td data-label="Время">14:10–14:50</td>
-                        <td data-label="Класс(ы)">6Y8D, 6Y8M</td>
-                        <td data-label="Предмет">English</td>
-                        <td data-label="Кабинет">Thailand</td>
-                        <td data-label="Кого заменяем">Mr Kolganov</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">Ms Balaeva</td>
-                        <td data-label="Комментарий">—</td>
-                      </tr><tr data-teacher="Nikonova U.A.">
-                        <td data-label="Урок(и)"><strong>8</strong></td>
-                        <td data-label="Время">15:00–15:40</td>
-                        <td data-label="Класс(ы)">5Y7D, 5Y7M</td>
-                        <td data-label="Предмет">Computer Science</td>
-                        <td data-label="Кабинет">Shanghai</td>
-                        <td data-label="Кого заменяем">Mr Smith</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">Nikonova U.A.</td>
-                        <td data-label="Комментарий">Репетиция в актовом зале</td>
-                      </tr><tr data-teacher="Ms Smirnova">
-                        <td data-label="Урок(и)"><strong>8</strong></td>
-                        <td data-label="Время">15:00–15:40</td>
-                        <td data-label="Класс(ы)">6Y8D, 6Y8M</td>
-                        <td data-label="Предмет">English</td>
-                        <td data-label="Кабинет">Thailand</td>
-                        <td data-label="Кого заменяем">Mr Kolganov</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">Ms Smirnova</td>
-                        <td data-label="Комментарий">Ask mr Kolganov about tasks please</td>
-                      </tr><tr data-teacher="—">
-                        <td data-label="Урок(и)"><strong>9</strong></td>
-                        <td data-label="Время">15:40–16:20</td>
-                        <td data-label="Класс(ы)">9Y11</td>
-                        <td data-label="Предмет">English</td>
-                        <td data-label="Кабинет">Los Angeles</td>
-                        <td data-label="Кого заменяем">Mr Kolganov</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">—</td>
-                        <td data-label="Комментарий">—</td>
-                      </tr><tr data-teacher="Nikonova U.A.">
-                        <td data-label="Урок(и)"><strong>9</strong></td>
-                        <td data-label="Время">15:40–16:20</td>
-                        <td data-label="Класс(ы)">5Y7D, 5Y7M</td>
-                        <td data-label="Предмет">Class hour</td>
-                        <td data-label="Кабинет">Paris</td>
-                        <td data-label="Кого заменяем">Ryazankina E.V.</td>
-                        <td data-label="Кто заменяет" class="replacement-teacher">Nikonova U.A.</td>
-                        <td data-label="Комментарий">Репетиция в актовом зале</td>
-                      </tr></tbody>
+                        <tbody>`;
+        for(let row of teacherRows) {
+            html += `<tr data-teacher="${escapeHtml(row.assignedName)}">
+                        <td data-label="Урок(и)"><strong>${row.lessonDisplay}</strong></td>
+                        <td data-label="Время">${escapeHtml(row.timeRange)}</td>
+                        <td data-label="Класс(ы)">${escapeHtml(row.className)}</td>
+                        <td data-label="Предмет">${escapeHtml(row.subject)}</td>
+                        <td data-label="Кабинет">${escapeHtml(row.roomInfo)}</td>
+                        <td data-label="Кого заменяем">${escapeHtml(row.absentName)}</td>
+                        <td data-label="Кто заменяет" class="replacement-teacher">${escapeHtml(row.assignedName)}</td>
+                        <td data-label="Комментарий">${escapeHtml(row.comment).replace(/\n/g,'<br>')}</td>
+                      </tr>`;
+        }
+        if(teacherRows.length===0) html += `<tr><td colspan="8">Нет назначенных замен учителей</td></tr>`;
+        html += `</tbody>
                     </table>
                 </div>
             </div>
@@ -526,39 +881,20 @@
                         <thead>
                             <tr><th>Урок(и)</th><th>Время</th><th>Исходный кабинет</th><th>Новый кабинет</th><th>Класс(ы)</th><th>Учитель(и)</th><th>Комментарий</th></tr>
                         </thead>
-                        <tbody><tr>
-                        <td data-label="Урок(и)"><strong>3–4</strong></td>
-                        <td data-label="Время">10:20–11:40</td>
-                        <td data-label="Исходный кабинет">Japan</td>
-                        <td data-label="Новый кабинет">Los Angeles</td>
-                        <td data-label="Класс(ы)">8Y10M</td>
-                        <td data-label="Учитель(и)">Vasiliyeva U.V.</td>
-                        <td data-label="Комментарий">—</td>
-                      </tr><tr>
-                        <td data-label="Урок(и)"><strong>5–6</strong></td>
-                        <td data-label="Время">11:50–14:10</td>
-                        <td data-label="Исходный кабинет">Shanghai</td>
-                        <td data-label="Новый кабинет">Los Angeles</td>
-                        <td data-label="Класс(ы)">8Y10M</td>
-                        <td data-label="Учитель(и)">Ms Revne</td>
-                        <td data-label="Комментарий">—</td>
-                      </tr><tr>
-                        <td data-label="Урок(и)"><strong>7–8</strong></td>
-                        <td data-label="Время">14:10–15:40</td>
-                        <td data-label="Исходный кабинет">India</td>
-                        <td data-label="Новый кабинет">Los Angeles</td>
-                        <td data-label="Класс(ы)">8Y10M</td>
-                        <td data-label="Учитель(и)">Dyachkova O.G.</td>
-                        <td data-label="Комментарий">—</td>
-                      </tr><tr>
-                        <td data-label="Урок(и)"><strong>9</strong></td>
-                        <td data-label="Время">15:40–16:20</td>
-                        <td data-label="Исходный кабинет">Singapore (Green room)</td>
-                        <td data-label="Новый кабинет">Los Angeles</td>
-                        <td data-label="Класс(ы)">8Y10M</td>
-                        <td data-label="Учитель(и)">Ekaterina Kiyko</td>
-                        <td data-label="Комментарий">—</td>
-                      </tr></tbody>
+                        <tbody>`;
+        for(let row of classRows) {
+            html += `<tr>
+                        <td data-label="Урок(и)"><strong>${row.lessonDisplay}</strong></td>
+                        <td data-label="Время">${row.timeRange}</td>
+                        <td data-label="Исходный кабинет">${escapeHtml(row.originalRoom)}</td>
+                        <td data-label="Новый кабинет">${escapeHtml(row.newRoom)}</td>
+                        <td data-label="Класс(ы)">${escapeHtml(row.classes)}</td>
+                        <td data-label="Учитель(и)">${escapeHtml(row.teacher)}</td>
+                        <td data-label="Комментарий">${escapeHtml(row.comment)}</td>
+                      </tr>`;
+        }
+        if(classRows.length===0) html += `<tr><td colspan="7">Нет замен кабинетов на этот день</td></tr>`;
+        html += `</tbody>
                     </table>
                 </div>
             </div>
@@ -568,8 +904,158 @@
                 </div>
                 <div class="curator-selector">
                     <label><i class="fas fa-user-tie"></i> Выберите куратора:</label>
-                    <select id="curatorSelect"><option value="">-- выберите куратора --</option><option value="Ryazankina E.V.">Ryazankina E.V.</option><option value="Ryzhova A.E.">Ryzhova A.E.</option><option value="Ekaterina Kiyko">Ekaterina Kiyko</option></select>
+                    <select id="curatorSelect"><option value="">-- выберите куратора --</option>${curatorsList.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}</select>
                 </div>
                 <div id="curatorReportArea"><p>Выберите куратора, чтобы увидеть замены по всем его классам.</p></div>
             </div>
-        </div></body></html>
+        `;
+        
+        // Вместо показа внутри страницы — открываем в новой вкладке
+        const reportWindow = window.open();
+        if (!reportWindow) {
+            alert("Пожалуйста, разрешите всплывающие окна для этого сайта, чтобы открыть отчёт.");
+            return;
+        }
+        reportWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <title>Отчёт о заменах - ${headerDate}</title>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+                <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet">
+                <style>${document.querySelector('style').innerHTML}</style>
+            </head>
+            <body style="padding: 20px;">
+                ${html}
+                <script>
+                    // Переносим логику фильтрации учителя и куратора в отчёт
+                    const teacherRowsData = ${JSON.stringify(teacherRows)};
+                    const classRowsData = ${JSON.stringify(classRows)};
+                    const curatorClassesMap = ${JSON.stringify(curatorClassesMap)};
+                    const curatorsList = ${JSON.stringify(curatorsList)};
+                    
+                    function escapeHtml(str) { if (!str) return ''; return String(str).replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
+                    
+                    function renderCuratorTables(selectedCurator) {
+                        const container = document.getElementById('curatorReportArea');
+                        if(!selectedCurator || !curatorClassesMap[selectedCurator]) {
+                            container.innerHTML = '<p>Выберите куратора, чтобы увидеть замены по всем его классам.</p>';
+                            return;
+                        }
+                        const classesSet = new Set(curatorClassesMap[selectedCurator]);
+                        const filteredTeacher = teacherRowsData.filter(row => {
+                            const rowClasses = row.className.split(',').map(c=>c.trim());
+                            return rowClasses.some(c => classesSet.has(c));
+                        });
+                        const filteredRooms = classRowsData.filter(row => row.targetClass === 'Все' || classesSet.has(row.targetClass));
+                        
+                        let teacherHtml = \`<div class="curator-table-title">📖 Замены учителей для классов куратора \${escapeHtml(selectedCurator)} (\${Array.from(classesSet).join(', ')})</div>
+                                           <div class="report-table-wrapper"><table class="report-table"><thead><tr><th>Урок(и)</th><th>Время</th><th>Класс(ы)</th><th>Предмет</th><th>Кабинет</th><th>Кого заменяем</th><th>Кто заменяет</th><th>Комментарий</th></tr></thead><tbody>\`;
+                        for (let row of filteredTeacher) {
+                            teacherHtml += \`<tr><td data-label="Урок(и)"><strong>\${row.lessonDisplay}</strong></td><td data-label="Время">\${escapeHtml(row.timeRange)}</td><td data-label="Класс(ы)">\${escapeHtml(row.className)}</td><td data-label="Предмет">\${escapeHtml(row.subject)}</td><td data-label="Кабинет">\${escapeHtml(row.roomInfo)}</td><td data-label="Кого заменяем">\${escapeHtml(row.absentName)}</td><td data-label="Кто заменяет">\${escapeHtml(row.assignedName)}</td><td data-label="Комментарий">\${escapeHtml(row.comment)}</td></tr>\`;
+                        }
+                        if(filteredTeacher.length===0) teacherHtml += \`<tr><td colspan="8">Нет замен учителей для классов куратора</td></tr>\`;
+                        teacherHtml += \`</tbody></table></div>\`;
+                        
+                        let roomHtml = \`<div class="curator-table-title" style="margin-top: 28px;">🏫 Замены кабинетов для классов куратора \${escapeHtml(selectedCurator)}</div>
+                                        <div class="report-table-wrapper"><table class="report-table"><thead><tr><th>Урок(и)</th><th>Время</th><th>Исходный кабинет</th><th>Новый кабинет</th><th>Класс(ы)</th><th>Учитель(и)</th><th>Комментарий</th></tr></thead><tbody>\`;
+                        for (let row of filteredRooms) {
+                            roomHtml += \`<tr><td data-label="Урок(и)"><strong>\${row.lessonDisplay}</strong></td><td data-label="Время">\${row.timeRange}</td><td data-label="Исходный кабинет">\${escapeHtml(row.originalRoom)}</td><td data-label="Новый кабинет">\${escapeHtml(row.newRoom)}</td><td data-label="Класс(ы)">\${escapeHtml(row.classes)}</td><td data-label="Учитель(и)">\${escapeHtml(row.teacher)}</td><td data-label="Комментарий">\${escapeHtml(row.comment)}</td></tr>\`;
+                        }
+                        if(filteredRooms.length===0) roomHtml += \`<tr><td colspan="7">Нет замен кабинетов для классов куратора</td></tr>\`;
+                        roomHtml += \`</tbody></table></div>\`;
+                        container.innerHTML = teacherHtml + roomHtml;
+                    }
+                    
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Фильтр по учителю
+                        const teacherSelect = document.getElementById('reportTeacherSelect');
+                        if(teacherSelect && teacherRowsData.length) {
+                            let uniqueTeachers = [...new Set(teacherRowsData.map(r => r.assignedName).filter(n => n && n !== '—'))];
+                            teacherSelect.innerHTML = '<option value="">-- Выберите учителя --</option>' + uniqueTeachers.map(t => '<option value="' + escapeHtml(t) + '">' + escapeHtml(t) + '</option>').join('');
+                            teacherSelect.onchange = function() {
+                                let val = this.value;
+                                document.querySelectorAll('#replacementsTable tbody tr').forEach(row => {
+                                    let cell = row.querySelector('td.replacement-teacher');
+                                    let teacherCellText = cell ? (cell.innerText || cell.textContent) : '';
+                                    if (val && teacherCellText.includes(val)) row.classList.add('my-replacement');
+                                    else row.classList.remove('my-replacement');
+                                });
+                            };
+                        }
+                        // Куратор
+                        const curatorSelect = document.getElementById('curatorSelect');
+                        if (curatorSelect) {
+                            curatorSelect.innerHTML = '<option value="">-- выберите куратора --</option>' + curatorsList.map(c => '<option value="' + escapeHtml(c) + '">' + escapeHtml(c) + '</option>').join('');
+                            curatorSelect.onchange = function(e) { renderCuratorTables(e.target.value); };
+                            if (curatorSelect.value) renderCuratorTables(curatorSelect.value);
+                        }
+                    });
+                <\/script>
+            </body>
+            </html>
+        `);
+        reportWindow.document.close();
+    }
+    
+    function copyReportForEmail() { 
+        alert("Теперь отчёт открывается в новой вкладке. Вы можете скопировать URL оттуда или распечатать.");
+    }
+    
+    // Старый exportReportHTML больше не нужен, так как заменён на открытие в новой вкладке
+    // Но оставим функцию-заглушку, чтобы не было ошибок, и переназначим кнопку.
+    function exportReportHTML() { generateUnifiedReport(); } // просто вызывает генерацию отчёта
+    
+    function exportFullData() { let data = { teachers, lessons, replacements, classroomSwaps }; let blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"}); let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "covers_data.json"; a.click(); URL.revokeObjectURL(a.href); }
+    function importFullData() { 
+        let input = document.createElement('input'); input.type='file'; input.accept='application/json';
+        input.onchange=e=>{let file=e.target.files[0]; if(!file) return; let reader=new FileReader(); reader.onload=ev=>{try{let data=JSON.parse(ev.target.result); if(data.teachers && data.lessons){ teachers=data.teachers; lessons=data.lessons; replacements=data.replacements||{}; classroomSwaps=data.classroomSwaps||[]; populateSelects(); renderScheduleGrid(); renderSwapsTable(); saveToLocalStorage(); alert("Импорт выполнен"); document.getElementById('assignmentsContainer').style.display='none'; document.getElementById('reportContainer').style.display='none'; } else alert("Неверный формат");}catch(err){alert("Ошибка");}}; reader.readAsText(file);}; input.click(); 
+    }
+    function resetAll() { if(confirm("Сбросить всё расписание и все замены?")) { initDemoLessons(); replacements = {}; classroomSwaps = []; renderScheduleGrid(); renderSwapsTable(); saveToLocalStorage(); document.getElementById('assignmentsContainer').style.display='none'; document.getElementById('reportContainer').style.display='none'; alert("Сброшено"); } }
+    
+    function populateSelects() {
+        document.getElementById('teacherSelect').innerHTML = teachers.map(t=>`<option value="${t.id}">${escapeHtml(t.name)}</option>`).join('');
+        document.getElementById('subjectSelect').innerHTML = uniqueSubjects.map(s=>`<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
+        document.getElementById('roomSelect').innerHTML = roomsList.map(r=>`<option value="${escapeHtml(r)}">${escapeHtml(r)}</option>`).join('');
+        document.getElementById('daySelectFind').innerHTML = ["Monday","Tuesday","Wednesday","Thursday","Friday"].map(d=>`<option value="${d}">${d}</option>`).join('');
+        let lessonDiv = document.getElementById('lessonCheckboxes'); lessonDiv.innerHTML = '';
+        for(let i=1;i<=9;i++) { let l=document.createElement('label'); let cb=document.createElement('input'); cb.type='checkbox'; cb.value=i; l.appendChild(cb); l.appendChild(document.createTextNode(` Урок ${i}`)); lessonDiv.appendChild(l); }
+        let classDiv = document.getElementById('classCheckboxes'); classDiv.innerHTML = '';
+        classesList.forEach(c=>{ let l=document.createElement('label'); let cb=document.createElement('input'); cb.type='checkbox'; cb.value=c; l.appendChild(cb); l.appendChild(document.createTextNode(` ${c}`)); classDiv.appendChild(l); });
+        let absentDiv = document.getElementById('absentCheckboxes'); absentDiv.innerHTML = '';
+        teachers.forEach(t=>{ let l=document.createElement('label'); let cb=document.createElement('input'); cb.type='checkbox'; cb.value=t.id; l.appendChild(cb); l.appendChild(document.createTextNode(` ${escapeHtml(t.name)}`)); absentDiv.appendChild(l); });
+        let origSel = document.getElementById('swapOrigRoom'); if(origSel) { origSel.innerHTML = roomsList.map(r=>`<option value="${escapeHtml(r)}">${escapeHtml(r)}</option>`).join(''); document.getElementById('swapNewRoom').innerHTML = roomsList.map(r=>`<option value="${escapeHtml(r)}">${escapeHtml(r)}</option>`).join(''); }
+        let teacherSwapSel = document.getElementById('swapTeacherId');
+        if(teacherSwapSel) teacherSwapSel.innerHTML = '<option value="">Все учителя</option>' + teachers.map(t=>`<option value="${t.id}">${escapeHtml(t.name)}</option>`).join('');
+        let classSwapSel = document.getElementById('swapClassName');
+        if(classSwapSel) classSwapSel.innerHTML = '<option value="">Все классы</option>' + classesList.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+    }
+    
+    function init() {
+        if(!loadFromLocalStorage()) initDemoLessons();
+        populateSelects();
+        renderScheduleGrid();
+        renderSwapsTable();
+        document.getElementById('addLessonBtn').onclick = addLesson;
+        document.getElementById('showAssignmentsBtn').onclick = () => renderAssignmentsTable();
+        document.getElementById('saveAllBtn').onclick = saveAllAssignments;
+        document.getElementById('genReportBtn').onclick = generateUnifiedReport;
+        document.getElementById('copyReportForEmailBtn').onclick = copyReportForEmail;
+        document.getElementById('exportReportBtn').onclick = generateUnifiedReport; // открывает в новой вкладке
+        document.getElementById('exportBtn').onclick = exportFullData;
+        document.getElementById('importBtn').onclick = importFullData;
+        document.getElementById('resetBtn').onclick = resetAll;
+        document.getElementById('clearReplacementsBtn').onclick = clearAllReplacements;
+        document.getElementById('addSwapBtn').onclick = addClassroomSwap;
+        document.getElementById('clearSwapsBtn').onclick = clearAllSwaps;
+        document.getElementById('toggleAddLessonBtn').addEventListener('click', function() { let c = document.getElementById('addLessonForm'); c.style.display = c.style.display==='none'||c.style.display==='' ? 'block' : 'none'; this.innerHTML = c.style.display==='block' ? '<i class="fas fa-minus-circle"></i> Скрыть форму' : '<i class="fas fa-layer-group"></i> 📚 Добавить уроки'; });
+        document.getElementById('addLessonForm').style.display = 'none';
+        let fromSel = document.getElementById('swapLessonFrom');
+        let toSel = document.getElementById('swapLessonTo');
+        if(fromSel && toSel) fromSel.onchange = () => { if(parseInt(fromSel.value) > parseInt(toSel.value)) toSel.value = fromSel.value; };
+    }
+    init();
+</script>
+</body>
+</html>
